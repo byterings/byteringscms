@@ -13,13 +13,18 @@ describe('ApiClient', () => {
     const fetchImpl = vi.fn().mockResolvedValue(jsonResponse(200, { data: { ok: true } }));
     const client = new ApiClient('/api/v1', fetchImpl);
     await expect(client.request('/health')).resolves.toEqual({ data: { ok: true } });
-    expect(fetchImpl).toHaveBeenCalledWith('/api/v1/health', expect.objectContaining({ method: 'GET' }));
+    expect(fetchImpl).toHaveBeenCalledWith(
+      '/api/v1/health',
+      expect.objectContaining({ method: 'GET' }),
+    );
   });
 
   it('throws ApiRequestError with the API error code', async () => {
     const fetchImpl = vi
       .fn()
-      .mockResolvedValue(jsonResponse(422, { error: { code: 'VALIDATION_FAILED', message: 'bad' } }));
+      .mockResolvedValue(
+        jsonResponse(422, { error: { code: 'VALIDATION_FAILED', message: 'bad' } }),
+      );
     const client = new ApiClient('/api/v1', fetchImpl);
     await expect(client.request('/x', { method: 'POST', body: {} })).rejects.toMatchObject({
       status: 422,

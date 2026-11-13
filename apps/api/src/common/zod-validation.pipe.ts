@@ -10,7 +10,10 @@ export class ZodValidationPipe<T extends z.ZodType> implements PipeTransform<unk
     const result = this.schema.safeParse(value);
     if (!result.success) {
       throw AppError.validation(
-        result.error.issues.map((issue) => ({ path: issue.path.join('.'), message: issue.message })),
+        result.error.issues.map((issue) => ({
+          path: issue.path.join('.'),
+          message: issue.message,
+        })),
       );
     }
     return result.data;

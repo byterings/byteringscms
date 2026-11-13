@@ -5,3 +5,5 @@ LICENSE
 **/coverage
 **/generated
 *.md
+**/next-env.d.ts
+*.ps1
