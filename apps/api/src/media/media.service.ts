@@ -42,9 +42,12 @@ export interface UploadedFile {
 /** Keeps a safe, readable file name: no paths, no control characters. */
 export function safeFilename(name: string): string {
   const base = name.split(/[\\/]/).pop() ?? 'file';
-  // eslint-disable-next-line no-control-regex
-  const cleaned = base
-    .replace(/[\x00-\x1f\x7f"<>|:*?]/g, '')
+  const cleaned = [...base]
+    .filter((ch) => {
+      const code = ch.codePointAt(0)!;
+      return code >= 0x20 && code !== 0x7f && !'"<>|:*?'.includes(ch);
+    })
+    .join('')
     .trim()
     .slice(0, 200);
   return cleaned || 'file';
