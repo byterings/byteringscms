@@ -67,10 +67,10 @@ IDs: `R-000` documentation; `R-0xx` Phase 0; `R-1xx` Phase 1; … `R-9xx` Phase 
 
 | ID | Title | Description | Priority | Status |
 | -- | ----- | ----------- | -------- | ------ |
-| R-401 | Studio shell | Login, session, tenant switcher, navigation, error/loading states | High | pending |
-| R-402 | Entity and field builder | Create/edit entities and fields from the field type registry | High | pending |
-| R-403 | Record manager | Metadata-driven list and create/edit forms | High | pending |
-| R-404 | Vertical slice e2e | Playwright test of developmentPlan §15 | High | pending |
+| R-401 | Studio shell | Login, session, tenant switcher, navigation, error/loading states | High | done |
+| R-402 | Entity and field builder | Create/edit entities and fields from the field type registry | High | done |
+| R-403 | Record manager | Metadata-driven list and create/edit forms | High | done |
+| R-404 | Vertical slice e2e | Playwright test of developmentPlan §15 | High | done |
 
 ## Phase 5 — Relationships
 

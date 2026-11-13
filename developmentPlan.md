@@ -1400,13 +1400,13 @@ is completed.
 
 ## Admin and API
 
--   [ ] Entity builder
--   [ ] Dynamic forms
--   [ ] Record manager
--   [ ] REST API v1
+-   [x] Entity builder
+-   [x] Dynamic forms
+-   [x] Record manager
+-   [x] REST API v1
 -   [ ] OpenAPI
 -   [ ] API/SDK contract tests
--   [ ] UI/API vertical slice
+-   [x] UI/API vertical slice
 
 ## Extensibility and CMS
 

@@ -3,8 +3,9 @@
 ## Current State
 
 Phases 0-3 complete: foundation, identity/tenancy/authorization,
-metadata engine and generic record engine.
-Next: Phase 4 — Admin Studio vertical slice.
+metadata engine, generic record engine and the Admin Studio vertical slice
+(Playwright e2e of developmentPlan §15 passes).
+Next: Phase 5 — relationships.
 
 Branches: `main` (stable), `dev` (active work).
 

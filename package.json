@@ -17,7 +17,8 @@
     "db:setup-local": "pnpm --filter @byteringscms/api db:setup-local",
     "db:deploy": "pnpm --filter @byteringscms/api db:deploy",
     "db:migrate": "pnpm --filter @byteringscms/api db:migrate",
-    "db:status": "pnpm --filter @byteringscms/api db:status"
+    "db:status": "pnpm --filter @byteringscms/api db:status",
+    "test:e2e": "turbo run build && pnpm --filter @byteringscms/admin test:e2e"
   },
   "devDependencies": {
     "@eslint/js": "^9",
