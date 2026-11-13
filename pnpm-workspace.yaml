@@ -1,0 +1,13 @@
+packages:
+  - apps/*
+  - packages/*
+  - templates/*
+  - plugins/*
+onlyBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - '@swc/core'
+  - esbuild
+  - prisma
+  - sharp
+  - unrs-resolver
