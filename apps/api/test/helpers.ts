@@ -8,6 +8,9 @@ export function testEnv(overrides: Record<string, string> = {}): Env {
     NODE_ENV: 'test',
     LOG_LEVEL: 'silent',
     DATABASE_URL: TEST_DATABASE_URL,
+    // Suites send many requests from one IP; rate-limit tests override these.
+    RATE_LIMIT_PER_MINUTE: '100000',
+    AUTH_RATE_LIMIT_PER_MINUTE: '10000',
     ...overrides,
   });
 }

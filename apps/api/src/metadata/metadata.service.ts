@@ -54,8 +54,12 @@ export class MetadataService {
     return tx.entity.findFirst({ where: { tenantId, key }, include: withFields });
   }
 
-  async create(ctx: TenantContext, input: CreateEntityRequest): Promise<EntityDefinition> {
-    return this.db.run(ctx.tenantId, async (tx) => {
+  async create(
+    ctx: TenantContext,
+    input: CreateEntityRequest,
+    outerTx?: Tx,
+  ): Promise<EntityDefinition> {
+    return this.within(ctx, outerTx, async (tx) => {
       if (await tx.entity.findFirst({ where: { tenantId: ctx.tenantId, key: input.key } })) {
         throw AppError.conflict(
           'ENTITY_KEY_TAKEN',
@@ -102,8 +106,9 @@ export class MetadataService {
     ctx: TenantContext,
     entityId: string,
     input: UpdateEntityRequest,
+    outerTx?: Tx,
   ): Promise<EntityDefinition> {
-    return this.db.run(ctx.tenantId, async (tx) => {
+    return this.within(ctx, outerTx, async (tx) => {
       const current = await this.load(tx, ctx, entityId);
       const data: Prisma.EntityUpdateInput = {
         ...this.entitySettings(current, input),
@@ -119,8 +124,8 @@ export class MetadataService {
     });
   }
 
-  async remove(ctx: TenantContext, entityId: string): Promise<void> {
-    await this.db.run(ctx.tenantId, async (tx) => {
+  async remove(ctx: TenantContext, entityId: string, outerTx?: Tx): Promise<void> {
+    await this.within(ctx, outerTx, async (tx) => {
       const current = await this.load(tx, ctx, entityId);
       const referencing = await tx.field.findMany({
         where: {
@@ -153,8 +158,9 @@ export class MetadataService {
     ctx: TenantContext,
     entityId: string,
     input: CreateFieldRequest,
+    outerTx?: Tx,
   ): Promise<EntityDefinition> {
-    return this.db.run(ctx.tenantId, async (tx) => {
+    return this.within(ctx, outerTx, async (tx) => {
       const current = await this.load(tx, ctx, entityId);
       if (current.fields.some((f) => f.key === input.key)) {
         throw AppError.conflict(
@@ -176,8 +182,9 @@ export class MetadataService {
     entityId: string,
     fieldId: string,
     input: UpdateFieldRequest,
+    outerTx?: Tx,
   ): Promise<EntityDefinition> {
-    return this.db.run(ctx.tenantId, async (tx) => {
+    return this.within(ctx, outerTx, async (tx) => {
       const current = await this.load(tx, ctx, entityId);
       const field = current.fields.find((f) => f.id === fieldId);
       if (!field) throw AppError.notFound('Field');
@@ -233,8 +240,9 @@ export class MetadataService {
     ctx: TenantContext,
     entityId: string,
     fieldId: string,
+    outerTx?: Tx,
   ): Promise<EntityDefinition> {
-    return this.db.run(ctx.tenantId, async (tx) => {
+    return this.within(ctx, outerTx, async (tx) => {
       const current = await this.load(tx, ctx, entityId);
       const field = current.fields.find((f) => f.id === fieldId);
       if (!field) throw AppError.notFound('Field');
@@ -298,6 +306,15 @@ export class MetadataService {
   }
 
   // ---------------------------------------------------------------------------
+
+  /** Runs inside the caller's transaction when given (config apply), else opens one. */
+  private within<T>(
+    ctx: TenantContext,
+    tx: Tx | undefined,
+    fn: (tx: Tx) => Promise<T>,
+  ): Promise<T> {
+    return tx ? fn(tx) : this.db.run(ctx.tenantId, fn);
+  }
 
   private async load(tx: Tx, ctx: TenantContext, entityId: string): Promise<EntityWithFields> {
     const entity = await tx.entity.findFirst({

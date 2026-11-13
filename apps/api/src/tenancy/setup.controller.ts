@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { setupRequestSchema, type SetupRequest } from '@byteringscms/contracts';
 import { type Request, type Response } from 'express';
 import { Public } from '../auth/auth.decorators';
@@ -6,6 +6,7 @@ import { AuthService } from '../auth/auth.service';
 import { safeEqual } from '../auth/crypto';
 import { setSessionCookie } from '../auth/session-cookie';
 import { AppError } from '../common/app-error';
+import { AuthRateLimitGuard } from '../common/rate-limit';
 import { ZodValidationPipe } from '../common/zod-validation.pipe';
 import { APP_ENV } from '../config/config.module';
 import { type Env } from '../config/env';
@@ -27,6 +28,7 @@ export class SetupController {
 
   /** Creates the first tenant and owner, then signs the owner in. */
   @Post()
+  @UseGuards(AuthRateLimitGuard)
   async setup(
     @Body(new ZodValidationPipe(setupRequestSchema)) body: SetupRequest,
     @Req() req: Request,

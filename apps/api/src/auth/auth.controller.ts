@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Inject, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Inject, Post, Req, Res, UseGuards } from '@nestjs/common';
 import {
   changePasswordRequestSchema,
   loginRequestSchema,
@@ -8,6 +8,7 @@ import {
   type SwitchTenantRequest,
 } from '@byteringscms/contracts';
 import { type Request, type Response } from 'express';
+import { AuthRateLimitGuard } from '../common/rate-limit';
 import { Ctx, requireUser, type RequestContext } from '../common/request-context';
 import { ZodValidationPipe } from '../common/zod-validation.pipe';
 import { APP_ENV } from '../config/config.module';
@@ -24,6 +25,7 @@ export class AuthController {
   ) {}
 
   @Post('login')
+  @UseGuards(AuthRateLimitGuard)
   @Public()
   @HttpCode(200)
   async login(

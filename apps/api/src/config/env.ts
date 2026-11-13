@@ -38,6 +38,15 @@ export const envSchema = z.object({
     .default(168),
   /** Defaults to true in production. */
   COOKIE_SECURE: booleanString.optional(),
+  /** Maximum JSON request body, e.g. 1mb. */
+  MAX_JSON_BODY: z
+    .string()
+    .regex(/^\d+(kb|mb)$/)
+    .default('1mb'),
+  /** Requests per minute per client (IP or API key) for the whole API. */
+  RATE_LIMIT_PER_MINUTE: z.coerce.number().int().min(10).max(100_000).default(600),
+  /** Login and setup attempts per minute per IP. */
+  AUTH_RATE_LIMIT_PER_MINUTE: z.coerce.number().int().min(1).max(10_000).default(10),
   /** When set, first-run setup requires the header `x-setup-token` to match. */
   SETUP_TOKEN: z.string().min(16).optional(),
 });
