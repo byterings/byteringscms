@@ -788,13 +788,58 @@ confidently misleads the next developer.
 
 ## 17. Prerequisites
 
--   Node.js (current LTS) and pnpm 10 (`npm i -g pnpm@10`)
--   PostgreSQL 16+ (native install, or Docker Compose)
+-   Node.js 22+ (24 LTS recommended) and pnpm 10 (`npm i -g pnpm@10`)
+-   PostgreSQL 16+ (Docker Compose, a native install, or
+    `scripts/local-postgres.ps1` on Windows without admin rights)
 -   Git
 -   Docker Desktop (optional; for containerized Postgres and production
     images)
 
-Setup commands are added here as Phase 0 lands.
+### Local setup
+
+``` bash
+pnpm install
+
+# 1. Start PostgreSQL (pick one)
+docker compose up -d                                   # Docker
+powershell -File scripts/local-postgres.ps1 install    # Windows, no admin (once)
+powershell -File scripts/local-postgres.ps1 start
+
+# 2. Create the application role and databases (skip with Docker: the
+#    init script already did it). Uses ADMIN_DATABASE_URL, default
+#    postgresql://postgres:postgres@localhost:5432/postgres
+pnpm db:setup-local
+
+# 3. Configure environment
+cp apps/api/.env.example apps/api/.env
+cp apps/admin/.env.example apps/admin/.env.local
+
+# 4. Apply migrations
+pnpm db:deploy
+
+# 5. Run API (http://localhost:4000) and Admin Studio (http://localhost:3000)
+pnpm dev
+```
+
+### Common commands
+
+  Command                Purpose
+  ---------------------- ------------------------------------------------
+  `pnpm dev`             Run API and Admin Studio in watch mode
+  `pnpm build`           Build all packages and apps
+  `pnpm lint`            ESLint across the workspace
+  `pnpm typecheck`       TypeScript checks
+  `pnpm test`            Unit and integration tests (needs PostgreSQL)
+  `pnpm format`          Format with Prettier
+  `pnpm db:deploy`       Apply database migrations
+  `pnpm db:migrate`      Create a new migration from schema changes (dev)
+
+The API exposes `GET /api/v1/health` (liveness) and
+`GET /api/v1/health/ready` (readiness, checks the database).
+
+The application database role is deliberately **not** a superuser:
+PostgreSQL row-level security policies only protect tenant data for
+non-superuser roles.
 
 ------------------------------------------------------------------------
 

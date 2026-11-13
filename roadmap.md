@@ -23,13 +23,13 @@ IDs: `R-000` documentation; `R-0xx` Phase 0; `R-1xx` Phase 1; … `R-9xx` Phase 
 
 | ID | Title | Description | Priority | Status |
 | -- | ----- | ----------- | -------- | ------ |
-| R-001 | Workspace and tooling | pnpm workspace, Turborepo, strict shared TypeScript config, ESLint, Prettier | High | pending |
-| R-002 | API application | NestJS app, Zod environment validation, `/api/v1/health` and `/api/v1/ready`, test setup | High | pending |
-| R-003 | Database and migrations | Prisma, PostgreSQL connection, migration workflow, test database handling | High | pending |
-| R-004 | Admin application | Next.js Admin Studio skeleton with Tailwind, typed API client stub | High | pending |
-| R-005 | Local services | `docker-compose.yml` for Postgres; scripts for the native local Postgres | High | pending |
-| R-006 | CI pipeline | GitHub Actions: install, lint, typecheck, test with a Postgres service | High | pending |
-| R-007 | Local setup documentation | Prerequisites and commands in README | High | pending |
+| R-001 | Workspace and tooling | pnpm workspace, Turborepo, strict shared TypeScript config, ESLint, Prettier | High | done |
+| R-002 | API application | NestJS app, Zod environment validation, `/api/v1/health` and `/api/v1/ready`, test setup | High | done |
+| R-003 | Database and migrations | Prisma, PostgreSQL connection, migration workflow, test database handling | High | done |
+| R-004 | Admin application | Next.js Admin Studio skeleton with Tailwind, typed API client stub | High | done |
+| R-005 | Local services | `docker-compose.yml` for Postgres; scripts for the native local Postgres | High | done |
+| R-006 | CI pipeline | GitHub Actions: install, lint, typecheck, test with a Postgres service | High | done |
+| R-007 | Local setup documentation | Prerequisites and commands in README | High | done |
 
 ## Phase 1 — Identity, tenancy and authorization
 

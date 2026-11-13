@@ -13,7 +13,11 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test --concurrency=1",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "db:setup-local": "pnpm --filter @byteringscms/api db:setup-local",
+    "db:deploy": "pnpm --filter @byteringscms/api db:deploy",
+    "db:migrate": "pnpm --filter @byteringscms/api db:migrate",
+    "db:status": "pnpm --filter @byteringscms/api db:status"
   },
   "devDependencies": {
     "@eslint/js": "^9",

@@ -1363,15 +1363,15 @@ is completed.
 
 ## Foundation
 
--   [ ] Repository structure and workspace
--   [ ] TypeScript/lint/format/test setup
--   [ ] NestJS API app
--   [ ] Next.js Admin app
--   [ ] PostgreSQL Docker Compose
--   [ ] Prisma and migration workflow
--   [ ] Environment validation
--   [ ] CI pipeline
--   [ ] Local setup documentation
+-   [x] Repository structure and workspace
+-   [x] TypeScript/lint/format/test setup
+-   [x] NestJS API app
+-   [x] Next.js Admin app
+-   [x] PostgreSQL Docker Compose
+-   [x] Prisma and migration workflow
+-   [x] Environment validation
+-   [x] CI pipeline
+-   [x] Local setup documentation
 
 ## Identity and tenancy
 
