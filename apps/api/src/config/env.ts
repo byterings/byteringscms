@@ -12,6 +12,9 @@ export const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().min(1).max(65535).default(4000),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
+  DATABASE_URL: z
+    .string({ error: 'DATABASE_URL is required' })
+    .regex(/^postgres(ql)?:\/\//, 'must be a postgresql:// connection URL'),
   TENANCY_MODE: z.enum(['single', 'multi']).default('single'),
   CORS_ORIGINS: z
     .string()

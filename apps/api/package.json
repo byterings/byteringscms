@@ -4,19 +4,26 @@
   "private": true,
   "license": "AGPL-3.0-only",
   "scripts": {
-    "build": "nest build",
-    "dev": "nest start --watch",
+    "build": "prisma generate && nest build",
+    "dev": "prisma generate && nest start --watch",
     "start": "node dist/main.js",
-    "lint": "eslint src test",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "lint": "eslint src test scripts",
+    "typecheck": "prisma generate && tsc -p tsconfig.json --noEmit",
+    "test": "prisma generate && vitest run",
+    "test:watch": "vitest",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:reset": "prisma migrate reset",
+    "db:status": "prisma migrate status",
+    "db:setup-local": "node scripts/setup-local-db.mjs"
   },
   "dependencies": {
     "@byteringscms/contracts": "workspace:*",
     "@nestjs/common": "^11",
     "@nestjs/core": "^11",
     "@nestjs/platform-express": "^11",
+    "@prisma/client": "^6.19.3",
     "reflect-metadata": "^0.2",
     "rxjs": "^7",
     "zod": "^4"
@@ -29,6 +36,7 @@
     "@types/express": "^5",
     "@types/node": "^24",
     "@types/supertest": "^6",
+    "prisma": "^6.19.3",
     "supertest": "^7",
     "unplugin-swc": "^1",
     "vitest": "^3"

@@ -1,0 +1,12 @@
+// Platform system schema. Metadata-managed record values live in JSONB
+// (ADR-004). Tenant-owned tables are protected by row-level security
+// policies defined in SQL migrations (see migrations/*/migration.sql).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}

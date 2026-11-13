@@ -30,5 +30,15 @@ export default tseslint.config(
       'no-console': ['warn', { allow: ['warn', 'error'] }],
     },
   },
+  {
+    // NestJS DI relies on emitted decorator metadata; converting value
+    // imports to `import type` would silently break injection.
+    files: ['apps/api/**/*.ts'],
+    rules: { '@typescript-eslint/consistent-type-imports': 'off' },
+  },
+  {
+    files: ['**/scripts/**', 'packages/cli/**'],
+    rules: { 'no-console': 'off' },
+  },
   prettier,
 );

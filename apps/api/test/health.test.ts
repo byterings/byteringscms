@@ -19,6 +19,23 @@ describe('health', () => {
     expect(res.body).toEqual({ status: 'ok' });
   });
 
+  it('GET /api/v1/health/ready reports the database as up', async () => {
+    const res = await request(app.getHttpServer()).get('/api/v1/health/ready').expect(200);
+    expect(res.body).toEqual({ status: 'ok', checks: { database: 'up' } });
+  });
+
+  it('readiness returns 503 when the database is unreachable', async () => {
+    const broken = await createTestApp({
+      DATABASE_URL: 'postgresql://nobody:wrong@localhost:1/none?connect_timeout=1',
+    });
+    try {
+      const res = await request(broken.getHttpServer()).get('/api/v1/health/ready').expect(503);
+      expect(res.body).toEqual({ status: 'error', checks: { database: 'down' } });
+    } finally {
+      await broken.close();
+    }
+  });
+
   it('unknown routes return the standard error envelope', async () => {
     const res = await request(app.getHttpServer()).get('/api/v1/does-not-exist').expect(404);
     expect(res.body.error.code).toBe('NOT_FOUND');
