@@ -3,6 +3,7 @@ import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
 import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 export default tseslint.config(
   {
@@ -35,6 +36,12 @@ export default tseslint.config(
     // imports to `import type` would silently break injection.
     files: ['apps/api/**/*.ts'],
     rules: { '@typescript-eslint/consistent-type-imports': 'off' },
+  },
+  {
+    files: ['apps/admin/**/*.{ts,tsx}'],
+    plugins: { 'react-hooks': reactHooks },
+    languageOptions: { globals: { ...globals.browser } },
+    rules: reactHooks.configs.recommended.rules,
   },
   {
     files: ['**/scripts/**', 'packages/cli/**'],
