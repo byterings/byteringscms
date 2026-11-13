@@ -35,6 +35,8 @@
     "zod": "^4"
   },
   "devDependencies": {
+    "@byteringscms/cli": "workspace:*",
+    "@byteringscms/sdk": "workspace:*",
     "@nestjs/cli": "^11",
     "@nestjs/testing": "^11",
     "@swc/cli": "^0.7",

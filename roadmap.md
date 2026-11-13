@@ -84,12 +84,12 @@ IDs: `R-000` documentation; `R-0xx` Phase 0; `R-1xx` Phase 1; … `R-9xx` Phase 
 
 | ID | Title | Description | Priority | Status |
 | -- | ----- | ----------- | -------- | ------ |
-| R-601 | OpenAPI | Published spec and docs UI for all routes | High | pending |
-| R-602 | TypeScript SDK | Typed client package | High | pending |
-| R-603 | API key management | Create/revoke scoped keys via API and Studio | High | pending |
-| R-604 | Limits | Rate limiting and request size limits | High | pending |
-| R-605 | Config export/import/diff | Metadata as JSON files; read-only diff; plan-then-apply push | High | pending |
-| R-606 | CLI | `entities:list`, `export`, `import`, `schema:diff`, `schema:push`, `template:install` | Medium | pending |
+| R-601 | OpenAPI | Published spec and docs UI for all routes | High | done |
+| R-602 | TypeScript SDK | Typed client package | High | done |
+| R-603 | API key management | Create/revoke scoped keys via API and Studio | High | done |
+| R-604 | Limits | Rate limiting and request size limits | High | done |
+| R-605 | Config export/import/diff | Metadata as JSON files; read-only diff; plan-then-apply push | High | done |
+| R-606 | CLI | `entities:list`, `export`, `import`, `schema:diff`, `schema:push`, `template:install` | Medium | done |
 
 ## Phase 7 — Media and CMS template
 

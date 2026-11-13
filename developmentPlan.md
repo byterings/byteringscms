@@ -1404,8 +1404,8 @@ is completed.
 -   [x] Dynamic forms
 -   [x] Record manager
 -   [x] REST API v1
--   [ ] OpenAPI
--   [ ] API/SDK contract tests
+-   [x] OpenAPI
+-   [x] API/SDK contract tests
 -   [x] UI/API vertical slice
 
 ## Extensibility and CMS
@@ -1414,8 +1414,8 @@ is completed.
 -   [ ] Media storage
 -   [ ] CMS template
 -   [ ] Template manifest
--   [ ] Config export/import
--   [ ] CLI
+-   [x] Config export/import
+-   [x] CLI
 -   [ ] Template diff/upgrade
 -   [ ] Plugin contract
 

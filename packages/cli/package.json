@@ -1,0 +1,31 @@
+{
+  "name": "@byteringscms/cli",
+  "version": "0.1.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "description": "Developer CLI: schema export/diff/push, type generation, templates.",
+  "main": "dist/commands.js",
+  "types": "dist/commands.d.ts",
+  "bin": {
+    "byterings": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "lint": "eslint src",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@byteringscms/contracts": "workspace:*",
+    "@byteringscms/sdk": "workspace:*",
+    "commander": "^12"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "vitest": "^3"
+  }
+}

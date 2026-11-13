@@ -204,7 +204,11 @@ export class ConfigSyncService {
       name: entity.name,
       pluralName: entity.pluralName ?? `${entity.name}s`,
       description: entity.description ?? null,
-      titleField: entity.titleField ?? null,
+      // Like the Admin Studio: without an explicit title field, use the first text field.
+      titleField:
+        entity.titleField !== undefined
+          ? entity.titleField
+          : (fields.find((f) => f.type === 'text')?.key ?? null),
       publicRead: entity.publicRead ?? false,
       publishField: entity.publishField ?? null,
       publishValue: entity.publishValue ?? null,

@@ -841,6 +841,41 @@ The application database role is deliberately **not** a superuser:
 PostgreSQL row-level security policies only protect tenant data for
 non-superuser roles.
 
+### API documentation
+
+-   `GET /api/v1/openapi.json`: OpenAPI 3.1 document for the whole API.
+-   `GET /api/v1/openapi/tenant.json`: the same plus typed schemas and
+    paths for the signed-in tenant's entities.
+-   `GET /api/v1/docs`: interactive documentation.
+
+### SDK and CLI
+
+``` ts
+import { createClient } from '@byteringscms/sdk';
+
+const client = createClient({ baseUrl: 'http://localhost:4000', apiKey: process.env.API_KEY });
+const products = await client.records<Product>('product').list({
+  filter: { price: { gte: 10 } },
+  sort: ['-price'],
+  expand: ['category'],
+});
+```
+
+``` bash
+export BYTERINGS_URL=http://localhost:4000
+export BYTERINGS_API_KEY=bcms_...            # key with metadata scopes
+
+byterings entities:list
+byterings export                  # writes ./entities/<key>.json
+byterings schema:diff             # read-only plan
+byterings schema:push             # plan, confirm, apply atomically
+byterings schema:push --prune --allow-destructive   # also delete undeclared items
+byterings types --out src/platform-types.ts
+```
+
+Run the CLI from the workspace with `node packages/cli/dist/index.js`
+after `pnpm build`.
+
 ------------------------------------------------------------------------
 
 ## 18. License
