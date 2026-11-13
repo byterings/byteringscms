@@ -32,9 +32,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
   catch(exception: unknown, host: ArgumentsHost): void {
     const response = host.switchToHttp().getResponse<Response>();
+    const request = host.switchToHttp().getRequest<{ id?: string }>();
     const { status, body } = this.toResponse(exception);
     if (status >= 500) {
-      this.logger.error(exception instanceof Error ? exception.stack : String(exception));
+      // Never send internals to clients; give them an id to quote instead.
+      if (request.id) body.error.requestId = String(request.id);
+      this.logger.error(
+        { requestId: request.id, err: exception },
+        exception instanceof Error ? exception.message : String(exception),
+      );
     }
     response.status(status).json(body);
   }

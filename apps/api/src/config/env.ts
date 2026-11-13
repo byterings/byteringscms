@@ -12,6 +12,14 @@ export const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().min(1).max(65535).default(4000),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
+  /** json (default, for log collectors) or pretty (local development). */
+  LOG_FORMAT: z.enum(['json', 'pretty']).default('json'),
+  /** Tenant quotas (0 = unlimited). */
+  TENANT_MAX_RECORDS: z.coerce.number().int().min(0).default(0),
+  TENANT_MAX_MEDIA_BYTES: z.coerce.number().int().min(0).default(0),
+  /** Retention used by the maintenance command (ADR-015, ADR-024). */
+  AUDIT_RETENTION_DAYS: z.coerce.number().int().min(1).default(365),
+  TRASH_RETENTION_DAYS: z.coerce.number().int().min(1).default(30),
   DATABASE_URL: z
     .string({ error: 'DATABASE_URL is required' })
     .regex(/^postgres(ql)?:\/\//, 'must be a postgresql:// connection URL'),

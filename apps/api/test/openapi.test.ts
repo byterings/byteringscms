@@ -23,6 +23,9 @@ function servedRoutes(app: NestExpressApplication): Set<string> {
   const routes = new Set<string>();
   for (const layer of stack) {
     if (!layer.route) continue;
+    // Middleware mounted on every path (e.g. request logging) is not an operation.
+    const raw = layer.route.path;
+    if (!raw || raw === '/api/v1' || raw.includes('*') || raw.includes('(')) continue;
     const path = layer.route.path.replace(/^\/api\/v1/, '').replace(/:(\w+)/g, '{$1}');
     for (const [method, enabled] of Object.entries(layer.route.methods)) {
       if (enabled && method !== '_all') routes.add(`${method} ${path}`);

@@ -26,6 +26,7 @@ import {
   validateRecordInput,
 } from './record-validation';
 import { PluginsService } from '../plugins/plugins.service';
+import { UsageService } from '../usage/usage.service';
 import { RelationsService } from './relations.service';
 
 interface RawRecord {
@@ -75,6 +76,7 @@ export class RecordsService {
     private readonly audit: AuditService,
     private readonly relations: RelationsService,
     private readonly plugins: PluginsService,
+    private readonly usage: UsageService,
   ) {}
 
   list(ctx: TenantContext, entityKey: string, query: RecordListQuery) {
@@ -136,6 +138,7 @@ export class RecordsService {
     const result = await run(async (tx) => {
       const entity = await this.loadEntity(tx, ctx, entityKey);
       this.assertWritable(entity);
+      await this.usage.assertRecordQuota(tx, ctx.tenantId);
       const { values, changedKeys } = validateRecordInput(entity.fields, body.data, {
         mode: 'create',
         role: ctx.role,

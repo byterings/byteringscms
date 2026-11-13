@@ -6,6 +6,8 @@ export const apiErrorSchema = z.object({
     code: z.string(),
     message: z.string(),
     details: z.unknown().optional(),
+    /** Correlates the response with server logs (server errors). */
+    requestId: z.string().optional(),
   }),
 });
 export type ApiError = z.infer<typeof apiErrorSchema>;

@@ -696,6 +696,15 @@ export const API_OPERATIONS: OperationSpec[] = [
     response: data(z.array(templateUpgradeSchema)),
   },
 
+  {
+    method: 'get',
+    path: '/admin/usage',
+    tag: 'Tenant',
+    summary: 'Usage and quota limits of the current tenant',
+    auth: 'any',
+    permission: 'audit:read',
+  },
+
   // Plugins (trusted, server-installed)
   {
     method: 'get',

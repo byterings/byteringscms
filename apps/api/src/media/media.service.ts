@@ -15,6 +15,7 @@ import { AppError } from '../common/app-error';
 import { actorId, type TenantContext } from '../common/request-context';
 import { TenantDb } from '../database/tenant-db.service';
 import { contentMatches, imageDimensions, sniffMimeType } from './file-sniffer';
+import { UsageService } from '../usage/usage.service';
 import { STORAGE_DRIVER, type StorageDriver } from './storage';
 
 const EXTENSIONS: Record<string, string> = {
@@ -75,6 +76,7 @@ export class MediaService {
     private readonly db: TenantDb,
     private readonly audit: AuditService,
     @Inject(STORAGE_DRIVER) private readonly storage: StorageDriver,
+    private readonly usage: UsageService,
   ) {}
 
   async upload(
@@ -104,6 +106,7 @@ export class MediaService {
     const now = new Date();
     const key = `${ctx.tenantId}/${now.getUTCFullYear()}/${String(now.getUTCMonth() + 1).padStart(2, '0')}/${randomUUID()}.${EXTENSIONS[declared]}`;
     const dims = kind === 'image' ? imageDimensions(file.buffer, declared) : null;
+    await this.usage.assertMediaQuota(ctx.tenantId, file.size);
     await this.storage.put(key, file.buffer, declared);
     try {
       return await this.db.run(ctx.tenantId, async (tx) => {

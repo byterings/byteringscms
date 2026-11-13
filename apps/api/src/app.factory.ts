@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
 import { type NestExpressApplication } from '@nestjs/platform-express';
 import { type NextFunction, type Request, type Response } from 'express';
+import { Logger } from 'nestjs-pino';
 import { getAbsoluteFSPath } from 'swagger-ui-dist';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/http-exception.filter';
@@ -12,9 +13,10 @@ export const API_PREFIX = 'api/v1';
 /** Builds a fully configured application. Shared by main.ts and tests. */
 export async function createApp(env: Env): Promise<NestExpressApplication> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule.forRoot(env), {
-    logger: env.LOG_LEVEL === 'silent' ? false : undefined,
+    bufferLogs: true,
     bodyParser: false,
   });
+  app.useLogger(app.get(Logger));
   configureApp(app, env);
   return app;
 }
