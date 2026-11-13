@@ -73,6 +73,15 @@ Must explicitly warn before execution
 
 ---
 
+## 🌿 Git Rules
+- `main` is stable; all work is committed on `dev` (or `feature/*` off `dev`)
+- One commit per completed task, Conventional Commits format (see CONTRIBUTING.md)
+- No AI/assistant/tool attribution in commit messages or PR descriptions
+  (no `Co-Authored-By` trailers, no "Generated with" lines)
+- Do not push unless the user asks
+
+---
+
 ## ✅ Task Checklist
 - Code correct
 - Matches roadmap

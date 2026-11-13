@@ -181,6 +181,10 @@ to put everything in one giant service.
 The following decisions are the initial baseline. Each should be
 revisited only with a clear reason and migration impact.
 
+Each ADR below also exists as its own file in `docs/decisions/`, which
+is the canonical location. New decisions (ADR-013 onward) are recorded
+only there.
+
 ## ADR-001: One product for self-hosted and SaaS
 
 **Decision:** Use the same codebase and runtime for self-hosted and SaaS
@@ -1256,6 +1260,11 @@ begins.
 For each decision, add an ADR under `docs/decisions/` with context,
 options, decision, consequences, and date.
 
+**Resolved (2026-11-13):** 1 → ADR-013, 2 → ADR-017, 3 → ADR-014,
+4 → ADR-018, 5 → ADR-015, 6 → ADR-019, 7 → ADR-020, 8 → ADR-021,
+9 → ADR-022, 10 → ADR-023, 11 → ADR-024, 12 → ADR-025, 13 → ADR-026,
+14 → ADR-016 (AGPL-3.0), 15 → ADR-027 (deferred).
+
 ------------------------------------------------------------------------
 
 # 21. AI Coding Agent Operating Instructions
@@ -1347,6 +1356,10 @@ After Phase 0 passes, proceed to Phase 1: identity and tenant isolation.
 
 Use this as the project-level progress checklist and update it as work
 is completed.
+
+## Documentation
+
+-   [x] Documentation baseline, ADRs, license (R-000)
 
 ## Foundation
 

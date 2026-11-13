@@ -4,9 +4,9 @@
 > metadata-driven core, a headless API, and an extensible
 > application/template system.
 
-**Project status:** Architecture and product direction defined;
-implementation has not started or is not yet represented in this
-document.\
+**Project status:** See `project_status.md` for the current
+implementation state.\
+**License:** GNU AGPL-3.0 (see `LICENSE`).\
 **Initial application:** Headless CMS.\
 **Primary deployment target:** Self-hosted first, SaaS-ready from day
 one.\
@@ -690,10 +690,13 @@ abstractions and circular dependencies.
 
 ## 13. Development Workflow and Agent Instructions
 
-AI coding agents (Claude Code, Codex, or others) must treat
-`developmentPlan.md` as the implementation source of truth.
+AI coding agents (Claude Code, Codex, or others) must follow
+`AGENTS.md` and treat `developmentPlan.md` as the implementation source
+of truth.
 
-Before changing code: 1. Read this README and `developmentPlan.md`. 2.
+Before changing code: 1. Read, in order, `AGENTS.md`, this README,
+`context.md`, `project_status.md`, `roadmap.md` and
+`developmentPlan.md`. 2.
 Inspect the actual repository and current implementation. 3. Identify
 the current phase and milestone. 4. Read relevant architecture decisions
 and existing tests. 5. State the intended change and affected boundaries
@@ -766,13 +769,36 @@ unfinished screens.
 
 -   `README.md`: product definition, principles, architecture summary,
     setup direction, and agent guidance.
+-   `AGENTS.md`: operating rules for AI agents (read order, approval
+    flow, commits).
+-   `CONTRIBUTING.md`: branches, commit conventions, workflow.
+-   `context.md`: current system architecture and module map.
+-   `roadmap.md`: planned work items (R-IDs) by phase.
+-   `project_status.md`: what is actually implemented.
 -   `developmentPlan.md`: detailed decisions, phases, acceptance
     criteria, risks, and execution rules.
--   `docs/architecture/`: detailed component and data-flow diagrams as
-    they become necessary.
 -   `docs/decisions/`: Architecture Decision Records (ADRs).
--   `docs/api/`: API contracts and OpenAPI guidance.
+-   `docs/architecture/`, `docs/api/`: added when needed.
 
 Keep these documents updated when a decision changes. A stale
 architecture document is worse than no architecture document because it
 confidently misleads the next developer.
+
+------------------------------------------------------------------------
+
+## 17. Prerequisites
+
+-   Node.js (current LTS) and pnpm 10 (`npm i -g pnpm@10`)
+-   PostgreSQL 16+ (native install, or Docker Compose)
+-   Git
+-   Docker Desktop (optional; for containerized Postgres and production
+    images)
+
+Setup commands are added here as Phase 0 lands.
+
+------------------------------------------------------------------------
+
+## 18. License
+
+Licensed under the GNU Affero General Public License v3.0. See
+`LICENSE` and `docs/decisions/016-licensing-agpl.md`.
