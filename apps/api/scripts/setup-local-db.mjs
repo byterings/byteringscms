@@ -14,7 +14,7 @@ const adminUrl =
   process.env.ADMIN_DATABASE_URL ?? 'postgresql://postgres:postgres@localhost:5432/postgres';
 const user = process.env.APP_DB_USER ?? 'byterings';
 const password = process.env.APP_DB_PASSWORD ?? 'byterings';
-const databases = ['byterings_dev', 'byterings_test'];
+const databases = ['byterings_dev', 'byterings_test', 'byterings_shadow'];
 
 if (!/^[a-z_][a-z0-9_]*$/.test(user)) throw new Error('APP_DB_USER must be a simple identifier');
 

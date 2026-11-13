@@ -1,6 +1,10 @@
 // Platform system schema. Metadata-managed record values live in JSONB
 // (ADR-004). Tenant-owned tables are protected by row-level security
-// policies defined in SQL migrations (see migrations/*/migration.sql).
+// policies defined in the SQL migrations (see migrations/*/migration.sql):
+// rows are visible only when `app.tenant_id` matches, or when a vetted
+// system code path sets `app.bypass_rls = on`.
+//
+// Creating migrations: see apps/api/scripts/new-migration.mjs.
 
 generator client {
   provider = "prisma-client-js"
@@ -9,4 +13,139 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum TenantStatus {
+  active
+  suspended
+}
+
+enum UserStatus {
+  active
+  disabled
+}
+
+enum MembershipRole {
+  owner
+  admin
+  editor
+  viewer
+}
+
+/// Singleton row describing this installation (id is always 1).
+model Installation {
+  id              Int      @id @default(1)
+  defaultTenantId String?  @map("default_tenant_id") @db.Uuid
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@map("installation")
+}
+
+model Tenant {
+  id        String       @id @default(uuid()) @db.Uuid
+  slug      String       @unique
+  name      String
+  status    TenantStatus @default(active)
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  memberships Membership[]
+  apiKeys     ApiKey[]
+
+  @@map("tenants")
+}
+
+model User {
+  id              String     @id @default(uuid()) @db.Uuid
+  /// Always stored lower-cased.
+  email           String     @unique
+  name            String
+  passwordHash    String     @map("password_hash")
+  isPlatformAdmin Boolean    @default(false) @map("is_platform_admin")
+  status          UserStatus @default(active)
+  lastLoginAt     DateTime?  @map("last_login_at") @db.Timestamptz(3)
+  createdAt       DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  memberships Membership[]
+  sessions    Session[]
+
+  @@map("users")
+}
+
+/// Tenant-owned (RLS).
+model Membership {
+  id        String         @id @default(uuid()) @db.Uuid
+  tenantId  String         @map("tenant_id") @db.Uuid
+  userId    String         @map("user_id") @db.Uuid
+  role      MembershipRole
+  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime       @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, userId])
+  @@index([userId])
+  @@map("memberships")
+}
+
+/// Browser sessions (ADR-013). Only the SHA-256 hash of the token is stored.
+model Session {
+  id             String   @id @default(uuid()) @db.Uuid
+  tokenHash      String   @unique @map("token_hash")
+  userId         String   @map("user_id") @db.Uuid
+  activeTenantId String?  @map("active_tenant_id") @db.Uuid
+  csrfToken      String   @map("csrf_token")
+  expiresAt      DateTime @map("expires_at") @db.Timestamptz(3)
+  lastSeenAt     DateTime @default(now()) @map("last_seen_at") @db.Timestamptz(3)
+  ipAddress      String?  @map("ip_address")
+  userAgent      String?  @map("user_agent")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+/// Tenant-bound API keys for machine clients (ADR-013). Tenant-owned (RLS).
+model ApiKey {
+  id          String    @id @default(uuid()) @db.Uuid
+  tenantId    String    @map("tenant_id") @db.Uuid
+  name        String
+  /// Non-secret identifier shown in listings, e.g. "bcms_ab12cd34".
+  prefix      String
+  keyHash     String    @unique @map("key_hash")
+  scopes      String[]
+  createdById String?   @map("created_by_id") @db.Uuid
+  lastUsedAt  DateTime? @map("last_used_at") @db.Timestamptz(3)
+  expiresAt   DateTime? @map("expires_at") @db.Timestamptz(3)
+  revokedAt   DateTime? @map("revoked_at") @db.Timestamptz(3)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@map("api_keys")
+}
+
+/// Audit trail (ADR-024). Stores changed keys, never values. Tenant-owned (RLS);
+/// tenant_id is null for installation-level events.
+model AuditEvent {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String?  @map("tenant_id") @db.Uuid
+  actorType   String   @map("actor_type")
+  actorId     String?  @map("actor_id")
+  action      String
+  targetType  String?  @map("target_type")
+  targetId    String?  @map("target_id")
+  changedKeys String[] @map("changed_keys")
+  metadata    Json?
+  ipAddress   String?  @map("ip_address")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([tenantId, createdAt])
+  @@map("audit_events")
 }

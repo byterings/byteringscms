@@ -16,7 +16,8 @@
     "db:deploy": "prisma migrate deploy",
     "db:reset": "prisma migrate reset",
     "db:status": "prisma migrate status",
-    "db:setup-local": "node scripts/setup-local-db.mjs"
+    "db:setup-local": "node scripts/setup-local-db.mjs",
+    "db:new-migration": "node scripts/new-migration.mjs"
   },
   "dependencies": {
     "@byteringscms/contracts": "workspace:*",
