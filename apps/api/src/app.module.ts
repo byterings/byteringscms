@@ -6,6 +6,7 @@ import { type Env } from './config/env';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
 import { MembersModule } from './members/members.module';
+import { MetadataModule } from './metadata/metadata.module';
 import { TenancyModule } from './tenancy/tenancy.module';
 
 @Module({})
@@ -20,6 +21,7 @@ export class AppModule {
         TenancyModule,
         AuthModule,
         MembersModule,
+        MetadataModule,
         HealthModule,
       ],
     };

@@ -1387,11 +1387,11 @@ is completed.
 
 ## Metadata and records
 
--   [ ] Entity metadata
--   [ ] Field metadata
--   [ ] Field type registry
--   [ ] Metadata validation
--   [ ] Metadata versioning
+-   [x] Entity metadata
+-   [x] Field metadata
+-   [x] Field type registry
+-   [x] Metadata validation
+-   [x] Metadata versioning
 -   [ ] JSONB record persistence
 -   [ ] Record CRUD
 -   [ ] Dynamic validation

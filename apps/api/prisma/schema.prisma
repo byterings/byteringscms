@@ -51,6 +51,7 @@ model Tenant {
 
   memberships Membership[]
   apiKeys     ApiKey[]
+  entities    Entity[]
 
   @@map("tenants")
 }
@@ -129,6 +130,86 @@ model ApiKey {
 
   @@index([tenantId])
   @@map("api_keys")
+}
+
+enum EntityStatus {
+  active
+  archived
+}
+
+/// Entity definition (metadata). Tenant-owned (RLS). Key is immutable.
+model Entity {
+  id           String       @id @default(uuid()) @db.Uuid
+  tenantId     String       @map("tenant_id") @db.Uuid
+  key          String
+  name         String
+  pluralName   String       @map("plural_name")
+  description  String?
+  titleField   String?      @map("title_field")
+  publicRead   Boolean      @default(false) @map("public_read")
+  publishField String?      @map("publish_field")
+  publishValue String?      @map("publish_value")
+  status       EntityStatus @default(active)
+  /// tenant | template:<id> | plugin:<id> (ADR-026)
+  owner        String       @default("tenant")
+  overridden   Boolean      @default(false)
+  checksum     String?
+  version      Int          @default(1)
+  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  tenant Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  fields Field[]
+
+  @@unique([tenantId, key])
+  @@unique([id, tenantId])
+  @@map("entities")
+}
+
+/// Field definition. Tenant-owned (RLS). The composite foreign key guarantees
+/// a field always belongs to an entity of the same tenant.
+model Field {
+  id           String         @id @default(uuid()) @db.Uuid
+  tenantId     String         @map("tenant_id") @db.Uuid
+  entityId     String         @map("entity_id") @db.Uuid
+  key          String
+  label        String
+  type         String
+  description  String?
+  required     Boolean        @default(false)
+  unique       Boolean        @default(false)
+  isPublic     Boolean        @default(false) @map("is_public")
+  readMinRole  MembershipRole @default(viewer) @map("read_min_role")
+  writeMinRole MembershipRole @default(editor) @map("write_min_role")
+  defaultValue Json?          @map("default_value")
+  config       Json           @default("{}")
+  position     Int            @default(0)
+  owner        String         @default("tenant")
+  overridden   Boolean        @default(false)
+  checksum     String?
+  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime       @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  entity Entity @relation(fields: [entityId, tenantId], references: [id, tenantId], onDelete: Cascade)
+
+  @@unique([entityId, key])
+  @@index([tenantId])
+  @@map("fields")
+}
+
+/// Snapshot of an entity definition after each change (ADR-020). Tenant-owned (RLS).
+model MetadataVersion {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  entityId  String   @map("entity_id") @db.Uuid
+  version   Int
+  action    String
+  snapshot  Json
+  actorId   String?  @map("actor_id")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([tenantId, entityId, version])
+  @@map("metadata_versions")
 }
 
 /// Audit trail (ADR-024). Stores changed keys, never values. Tenant-owned (RLS);

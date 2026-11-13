@@ -3,7 +3,7 @@
 ## Current State
 
 Phase 0 (foundation) and Phase 1 (identity, tenancy, authorization)
-complete. Next: Phase 2 — metadata engine (R-201 … R-204).
+complete, Phase 2 (metadata engine) complete. Next: Phase 3 — record engine.
 
 Branches: `main` (stable), `dev` (active work).
 

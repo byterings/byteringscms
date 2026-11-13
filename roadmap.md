@@ -47,10 +47,10 @@ IDs: `R-000` documentation; `R-0xx` Phase 0; `R-1xx` Phase 1; … `R-9xx` Phase 
 
 | ID | Title | Description | Priority | Status |
 | -- | ----- | ----------- | -------- | ------ |
-| R-201 | Field type registry | text, integer, decimal, boolean, date, datetime, select, multiselect, relation, media — each with config schema, validation, serialization, filter ops | High | pending |
-| R-202 | Entity and field metadata | Tables, ownership/status, stable IDs and keys | High | pending |
-| R-203 | Metadata admin API | CRUD for entities and fields with validation and compatibility checks | High | pending |
-| R-204 | Metadata versioning | `metadata_versions` history (ADR-020) | Medium | pending |
+| R-201 | Field type registry | text, integer, decimal, boolean, date, datetime, select, multiselect, relation, media — each with config schema, validation, serialization, filter ops | High | done |
+| R-202 | Entity and field metadata | Tables, ownership/status, stable IDs and keys | High | done |
+| R-203 | Metadata admin API | CRUD for entities and fields with validation and compatibility checks | High | done |
+| R-204 | Metadata versioning | `metadata_versions` history (ADR-020) | Medium | done |
 
 ## Phase 3 — Generic record engine
 
