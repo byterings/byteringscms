@@ -778,6 +778,8 @@ unfinished screens.
 -   `developmentPlan.md`: detailed decisions, phases, acceptance
     criteria, risks, and execution rules.
 -   `docs/decisions/`: Architecture Decision Records (ADRs).
+-   `docs/operations/`: installation, upgrades, backup/restore,
+    monitoring and the security checklist.
 -   `docs/architecture/`, `docs/api/`: added when needed.
 
 Keep these documents updated when a decision changes. A stale

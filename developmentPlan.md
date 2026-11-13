@@ -1421,12 +1421,12 @@ is completed.
 
 ## Operations
 
--   [ ] Self-hosted Docker deployment
--   [ ] Backup/restore procedure
--   [ ] Health and readiness checks
--   [ ] Structured logging
--   [ ] Monitoring/error reporting
--   [ ] Security review
+-   [x] Self-hosted Docker deployment
+-   [x] Backup/restore procedure
+-   [x] Health and readiness checks
+-   [x] Structured logging
+-   [x] Monitoring/error reporting
+-   [x] Security review
 -   [ ] First SaaS pilot
 
 ------------------------------------------------------------------------

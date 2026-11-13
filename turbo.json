@@ -5,7 +5,9 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
+      "env": ["NEXT_OUTPUT"],
+      "passThroughEnv": ["NEXT_TELEMETRY_DISABLED"]
     },
     "dev": {
       "dependsOn": ["^build"],
@@ -20,7 +22,8 @@
     },
     "test": {
       "dependsOn": ["^build"],
-      "cache": false
+      "cache": false,
+      "passThroughEnv": ["TEST_DATABASE_URL", "ADMIN_DATABASE_URL", "SHADOW_DATABASE_URL", "PG_BIN"]
     }
   }
 }

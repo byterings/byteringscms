@@ -112,7 +112,7 @@ IDs: `R-000` documentation; `R-0xx` Phase 0; `R-1xx` Phase 1; … `R-9xx` Phase 
 
 | ID | Title | Description | Priority | Status |
 | -- | ----- | ----------- | -------- | ------ |
-| R-901 | Production containers | Dockerfiles, production compose, secure env template | High | pending |
-| R-902 | Observability and quotas | Structured logs, error handling, basic tenant quotas | High | pending |
-| R-903 | Backup and restore | Scripts and a demonstrated restore | High | pending |
-| R-904 | Runbooks and security review | Install/upgrade/backup runbooks, security checklist, dependency audit | High | pending |
+| R-901 | Production containers | Dockerfiles, production compose, secure env template | High | done |
+| R-902 | Observability and quotas | Structured logs, error handling, basic tenant quotas | High | done |
+| R-903 | Backup and restore | Scripts and a demonstrated restore | High | done |
+| R-904 | Runbooks and security review | Install/upgrade/backup runbooks, security checklist, dependency audit | High | done |

@@ -2,128 +2,98 @@
 
 ## Current State
 
-Phases 0-8 complete: foundation, identity/tenancy/authorization, metadata
-engine, record engine, Admin Studio vertical slice, relationships, API
-hardening and developer experience, media + public API + CMS template, and
-template upgrades + trusted plugins.
-Next: Phase 9 — production readiness.
+All roadmap phases 0-9 are implemented and tested. The platform runs
+locally end to end: API, Admin Studio, CMS template, public API, SDK, CLI,
+template upgrades, plugins, backups and restores.
 
-Branches: `main` (stable), `dev` (active work).
+Not done (requires infrastructure outside this repository):
+- First SaaS pilot (hosting accounts, domain, monitoring service).
+- Building and running the Docker images: Docker is not installed on the
+  development machine. Dockerfiles and `docker-compose.prod.yml` are written
+  and their build steps were verified natively (production `pnpm deploy`
+  bundle booted against PostgreSQL; Next.js standalone tracing ran), but
+  `docker compose up --build` has not been executed yet.
+
+Branches: `main` (stable), `dev` (all work; not yet merged or pushed).
+
+---
+
+## Verification (2026-11-13)
+
+| Check | Result |
+| ----- | ------ |
+| `pnpm format:check`, `pnpm lint`, `pnpm typecheck`, `pnpm build` | pass |
+| API tests (Vitest + Supertest, PostgreSQL 17) | 153 passed, incl. tenant-isolation suites and the restore drill |
+| Unit tests: contracts 20, admin 5, SDK 5, CLI 5 | pass |
+| Playwright end-to-end (`pnpm test:e2e`) | 10 passed |
+| `pnpm audit --prod` | no known vulnerabilities |
 
 ---
 
 ## Completed
 
-### R-000 — Documentation baseline
-- Status: done
+| Item | Summary | Key locations |
+| ---- | ------- | ------------- |
+| R-000 | Documentation baseline, ADR-001 … ADR-027, AGPL-3.0 | `docs/decisions/` |
+| R-001 … R-007 | pnpm/Turborepo workspace, strict TS, NestJS API, Next.js Admin Studio, Prisma, CI, setup docs | root configs, `.github/workflows/ci.yml` |
+| R-101 … R-107 | Tenants, users, memberships, sessions (Argon2id, CSRF), API keys, tenant context, roles, audit, first-run setup, RLS | `apps/api/src/{auth,tenancy,members,audit,database}` |
+| R-201 … R-204 | Field type registry (11 types) with shared validators, entity/field metadata, versions | `packages/contracts/src/fields.ts`, `apps/api/src/metadata` |
+| R-301 … R-306 | JSONB record engine: CRUD, validation, uniqueness, filters/sort/search/pagination, field permissions, optimistic concurrency, soft delete | `apps/api/src/records` |
+| R-401 … R-404 | Admin Studio: login/setup, schema builder, metadata-driven forms and lists, members, API keys, audit log; §15 e2e | `apps/admin` |
+| R-501 … R-503 | Relationships: `record_links`, target validation, expansion, relation picker | `relations.service.ts`, `relation-picker.tsx` |
+| R-601 … R-606 | OpenAPI 3.1 + docs UI + tenant spec, contract tests, SDK, CLI, config export/diff/apply, rate/size limits | `packages/{sdk,cli}`, `apps/api/src/{openapi,config-sync}` |
+| R-701 … R-705 | Media (local/S3 drivers, content sniffing), media library, public API, template engine, CMS template | `apps/api/src/{media,public-api,templates}`, `templates/cms` |
+| R-801 … R-802 | Template upgrade plans/apply/history, trusted plugins with capabilities, `cms-publishing` sample | `template-upgrade.service.ts`, `apps/api/src/plugins`, `plugins/` |
+| R-901 … R-904 | Dockerfiles + prod compose + Caddy, JSON logs with request ids, quotas/usage, maintenance job, backup/restore + drill, runbooks, security checklist | `apps/*/Dockerfile`, `docker-compose.prod.yml`, `scripts/`, `docs/operations/` |
 
-Files Changed:
-- `.gitignore`, `.editorconfig`, `.gitattributes`, `LICENSE`, `CONTRIBUTING.md`
-- `docs/decisions/` (ADR-001 … ADR-027, template, index)
-- `context.md`, `roadmap.md`, `project_status.md`
-- `README.md`, `developmentPlan.md`, `AGENTS.md`, `CLAUDE.md`
+Database migrations (in order): `identity_tenancy`, `metadata_engine`,
+`record_engine`, `relationships`, `media_and_templates`,
+`upgrades_and_plugins`. Each enables RLS on its tenant-owned tables.
 
-What Changed:
-- Repository hygiene files and the AGPL-3.0 license.
-- Baseline decisions extracted into ADRs; open decisions from
-  developmentPlan §20 recorded as ADR-013 … ADR-027.
+---
 
-Why:
-- Unambiguous starting point before Phase 0.
+## Decisions made during implementation
 
-### R-001 … R-007 — Phase 0 foundation
-- Status: done
-
-Files Changed:
-- Root: `package.json`, `pnpm-workspace.yaml`, `turbo.json`,
-  `tsconfig.base.json`, `eslint.config.mjs`, `.prettierrc.json`,
-  `docker-compose.yml`, `.github/workflows/ci.yml`
-- `packages/contracts` — shared Zod schemas (error envelope, health)
-- `apps/api` — NestJS app: env validation (`src/config`), error envelope
-  filter, Zod pipe, Prisma service, `/api/v1/health` and
-  `/api/v1/health/ready`, `scripts/setup-local-db.mjs`
-- `apps/admin` — Next.js 15 + Tailwind 4 skeleton, same-origin `/api`
-  proxy, typed `ApiClient`
-- `infrastructure/docker/postgres/init/01-app-role.sh`,
-  `scripts/local-postgres.ps1`
-
-What Changed:
-- pnpm + Turborepo workspace with strict TypeScript, ESLint, Prettier.
-- API refuses to start with invalid configuration; all errors use
-  `{ error: { code, message, details? } }`.
-- Application DB role is non-superuser without BYPASSRLS (needed for RLS).
-- CI runs format check, lint, typecheck, build and tests against Postgres.
-
-Tests:
-- `packages/contracts`: 3 unit tests.
-- `apps/api`: env parsing (4), health/readiness/error envelope (6) — all pass.
-- `apps/admin`: API client (4) — all pass.
-
-Known limitations:
-- Docker Compose file not executed locally (Docker not installed).
-- Prisma blocks AI agents from running `migrate reset`; the test setup uses
-  non-destructive `migrate deploy` and tests isolate data with unique
-  tenants/users instead of wiping the database.
-
-Decisions:
-- Pinned mature majors: TypeScript 5.9, NestJS 11, Next.js 15.5, Prisma 6,
-  Vitest 3, ESLint 9 (newer majors exist but are not yet adopted).
-- API build uses `tsc` (Nest CLI) for correct output layout; tests use
-  Vitest + SWC for decorator metadata.
-
-### R-101 … R-107 — Phase 1 identity, tenancy and authorization
-- Status: done
-
-Files Changed:
-- `apps/api/prisma/schema.prisma`, migration `*_identity_tenancy` (tables
-  + RLS policies via `app_rls_allows()`)
-- `apps/api/src/database/tenant-db.service.ts` — `run(tenantId)` /
-  `system()` transactions that set the RLS context
-- `apps/api/src/auth/*` — Argon2id passwords, DB sessions, CSRF, API keys,
-  global `AuthGuard`, `Authenticator`
-- `apps/api/src/tenancy/*` — tenant resolution, current tenant, platform
-  tenant provisioning, first-run setup (API + `cli:setup`)
-- `apps/api/src/members/*`, `apps/api/src/audit/*`
-- `packages/contracts/src/{permissions,auth,members,api-keys,tenants,audit,pagination}.ts`
-
-Endpoints (all under `/api/v1`):
-- `GET /setup/status`, `POST /setup`
-- `POST /auth/login`, `GET /auth/session`, `POST /auth/logout`,
-  `POST /auth/switch-tenant`, `POST /auth/password`
-- `GET|PATCH /tenant`
-- `GET|POST /admin/members`, `PATCH|DELETE /admin/members/:id`
-- `GET|POST /admin/api-keys`, `DELETE /admin/api-keys/:id`
-- `GET /admin/audit-events`
-- `GET|POST /platform/tenants`, `PATCH /platform/tenants/:id/status`
-
-Tests: 50 API tests pass (RLS 7, auth 11, setup 7, isolation 15,
-health 6, env 4); contracts 9.
-
-Decisions:
+- Mature majors pinned: TypeScript 5.9, NestJS 11, Next.js 15.5, Prisma 6,
+  Vitest 3, ESLint 9 (newer majors exist; upgrade deliberately).
 - Tenant isolation is enforced twice: explicit `tenantId` filters and
-  PostgreSQL RLS (`FORCE ROW LEVEL SECURITY`, non-superuser role).
-- `TenantDb.system()` (RLS bypass) is used only for login lookups, setup,
-  platform provisioning and a user's own membership list.
-- API keys act with a role derived from their scopes for field-level checks.
-- Migrations are generated with `pnpm --filter @byteringscms/api
-  db:new-migration <name>` (`prisma migrate diff` + shadow DB).
+  PostgreSQL RLS (`FORCE ROW LEVEL SECURITY`, non-superuser app role).
+  `TenantDb.system()` bypasses RLS only in vetted installation-wide paths.
+- Field keys/types and entity keys are immutable (ADR-020 addendum).
+- The Admin Studio reaches the API through a runtime proxy route
+  (`API_URL` read at runtime, not baked into the build).
+- Prisma blocks AI agents from `migrate reset`/`migrate dev`; migrations are
+  generated with `pnpm --filter @byteringscms/api db:new-migration <name>`
+  (`prisma migrate diff` + shadow database) and tests never wipe databases.
+- Backups/restores must use a role that bypasses RLS; restores keep owners.
+- `tar` is implemented in `scripts/lib/tar.mjs` (no host `tar` dependency).
+- Turborepo strict env mode: env vars used by tests/builds are declared in
+  `turbo.json` (`passThroughEnv`, `env`).
+
+---
+
+## Known limitations
+
+- Rate limiting state is in memory (single API instance).
+- No MFA/SSO, billing, search engine or GraphQL (V1 non-goals).
+- SVG uploads are rejected (would need sanitizing).
+- Product name and npm scope are placeholders (`byteringscms`, `byterings` CLI).
 
 ---
 
 ## In Progress
 None
 
----
-
 ## Pending
-- Phases 2–9: see `roadmap.md`
-
----
+- First SaaS pilot (Phase 9 stage 2/3 infrastructure).
+- Run `docker compose -f docker-compose.prod.yml up --build` on a Docker host.
+- Merge `dev` into `main` and push when approved.
 
 ## Blockers
 None.
 
-## Environment notes
-- Local development on this machine uses a native PostgreSQL 17
-  (`scripts/local-postgres.ps1`, user-level install, no Docker).
+## Environment notes (development machine)
+- Native PostgreSQL 17 via `scripts/local-postgres.ps1` (no Docker).
+- PostgreSQL 17 client tools (pg_dump/pg_restore/psql) in
+  `%LOCALAPPDATA%\byterings\pgclient`; set `PG_BIN` to run the restore drill.
 - Node.js 26 locally; CI uses Node 24 LTS (`.nvmrc`).

@@ -1,3 +1,4 @@
+import { join } from 'node:path';
 import type { NextConfig } from 'next';
 
 // API requests go through the runtime proxy in src/app/api/[...path]/route.ts,
@@ -7,6 +8,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Container builds set NEXT_OUTPUT=standalone for a minimal runtime image.
   output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
+  // Trace dependencies from the workspace root (pnpm monorepo).
+  outputFileTracingRoot: join(__dirname, '..', '..'),
   async headers() {
     return [
       {

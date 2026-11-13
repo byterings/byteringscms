@@ -11,3 +11,7 @@ onlyBuiltDependencies:
   - prisma
   - sharp
   - unrs-resolver
+overrides:
+  # Security fixes for transitive dependencies (pnpm audit, Phase 9).
+  postcss@<8.5.23: '>=8.5.23'
+  deepmerge-ts@<8: '>=8.0.0'
