@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+
+# Test output
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+# Environment and secrets (keep only examples)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local runtime data
+storage/
+uploads/
+backups/
+*.log
+logs/
+tmp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
