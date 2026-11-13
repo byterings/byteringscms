@@ -33,6 +33,10 @@ export default defineConfig({
         PORT: String(API_PORT),
         DATABASE_URL: process.env.E2E_DATABASE_URL,
         TENANCY_MODE: 'multi',
+        STORAGE_LOCAL_DIR: process.env.E2E_STORAGE_DIR ?? '',
+        TEMPLATES_DIR: '../../templates',
+        // The suite signs in many times from one IP; production keeps the default.
+        AUTH_RATE_LIMIT_PER_MINUTE: '1000',
         NODE_ENV: 'development',
         LOG_LEVEL: 'warn',
       },

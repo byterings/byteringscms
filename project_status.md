@@ -2,11 +2,11 @@
 
 ## Current State
 
-Phases 0-6 complete: foundation, identity/tenancy/authorization, metadata
-engine, record engine, Admin Studio vertical slice (Playwright e2e of
-developmentPlan §15 passes), relationships, and API hardening/developer
-experience (OpenAPI, SDK, CLI, config as code, rate limits).
-Next: Phase 7 — media and the CMS template.
+Phases 0-7 complete: foundation, identity/tenancy/authorization, metadata
+engine, record engine, Admin Studio vertical slice, relationships, API
+hardening and developer experience (OpenAPI, SDK, CLI, config as code, rate
+limits), and media + public API + template engine + CMS template.
+Next: Phase 8 — template upgrades and plugins.
 
 Branches: `main` (stable), `dev` (active work).
 

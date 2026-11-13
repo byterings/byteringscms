@@ -282,4 +282,61 @@ test.describe.serial('vertical slice', () => {
     await expect(page.getByRole('cell', { name: 'Hardware' })).toBeVisible();
     await api.dispose();
   });
+
+  test('Phase 7. install the CMS template, upload media and publish an article', async ({
+    page,
+  }) => {
+    const png = Buffer.from(
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+      'base64',
+    );
+    await uiSignIn(page, OWNER_B.email);
+
+    await page.goto('/templates');
+    await page.getByRole('button', { name: 'Install Headless CMS' }).click();
+    await expect(page.getByText('Installed. The new entities are in the sidebar.')).toBeVisible();
+    const nav = page.getByRole('navigation', { name: 'Main' });
+    await expect(nav.getByRole('link', { name: 'Articles' })).toBeVisible();
+
+    await nav.getByRole('link', { name: 'Media' }).click();
+    await page
+      .getByLabel('Upload files')
+      .setInputFiles({ name: 'cover.png', mimeType: 'image/png', buffer: png });
+    await expect(page.getByText('cover.png')).toBeVisible();
+
+    await nav.getByRole('link', { name: 'Articles' }).click();
+    await page.getByRole('button', { name: 'New article' }).click();
+    await page.getByRole('textbox', { name: 'Title', exact: true }).fill('Launch day');
+    await expect(page.getByRole('textbox', { name: 'Slug', exact: true })).toHaveValue(
+      'launch-day',
+    );
+    await page.getByLabel('Status').selectOption('published');
+    await page.getByLabel('Body').fill('We are live.');
+    await page.getByRole('button', { name: 'Choose file' }).click();
+    await page.getByRole('button', { name: 'Choose cover.png' }).click();
+    await expect(page.getByRole('list', { name: 'Selected Cover image' })).toContainText(
+      'cover.png',
+    );
+    await page.getByRole('button', { name: 'Create' }).click();
+    await expect(page).toHaveURL(/\/content\/article\/[0-9a-f-]{36}$/);
+
+    const anonymous = await request.newContext({ baseURL: API });
+    const list = await anonymous.get('/api/v1/public/tenant-b/entities/article/records', {
+      params: { 'filter[slug]': 'launch-day' },
+    });
+    expect(list.status()).toBe(200);
+    const article = (await list.json()).data[0];
+    expect(article.data).toMatchObject({ title: 'Launch day', status: 'published' });
+    const media = await anonymous.get(
+      `/api/v1/public/tenant-b/media/${article.data.coverImage}/file`,
+    );
+    expect(media.status()).toBe(200);
+    expect(media.headers()['content-type']).toBe('image/png');
+    // The template's draft sample article stays private.
+    const drafts = await anonymous.get('/api/v1/public/tenant-b/entities/article/records', {
+      params: { 'filter[slug]': 'writing-your-first-guide' },
+    });
+    expect((await drafts.json()).meta.total).toBe(0);
+    await anonymous.dispose();
+  });
 });

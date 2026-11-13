@@ -39,7 +39,7 @@ export class LocalStorageDriver implements StorageDriver {
     return full;
   }
 
-  async put(key: string, body: Buffer): Promise<void> {
+  async put(key: string, body: Buffer, _contentType?: string): Promise<void> {
     const path = this.path(key);
     await mkdir(dirname(path), { recursive: true });
     await writeFile(path, body, { flag: 'wx' });

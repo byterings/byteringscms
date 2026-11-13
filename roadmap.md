@@ -95,11 +95,11 @@ IDs: `R-000` documentation; `R-0xx` Phase 0; `R-1xx` Phase 1; … `R-9xx` Phase 
 
 | ID | Title | Description | Priority | Status |
 | -- | ----- | ----------- | -------- | ------ |
-| R-701 | Media storage | Storage driver interface, local + S3 drivers, upload validation (ADR-023) | High | pending |
-| R-702 | Media library UI | Upload, list, pick media in the Studio | Medium | pending |
-| R-703 | Public API | Anonymous read of public entities/fields/published records (ADR-025) | High | pending |
-| R-704 | Template engine | Manifest format, install on a tenant, ownership tracking | High | pending |
-| R-705 | CMS template | Article, Page, Category, Tag, Author; slugs, SEO, draft/published | High | pending |
+| R-701 | Media storage | Storage driver interface, local + S3 drivers, upload validation (ADR-023) | High | done |
+| R-702 | Media library UI | Upload, list, pick media in the Studio | Medium | done |
+| R-703 | Public API | Anonymous read of public entities/fields/published records (ADR-025) | High | done |
+| R-704 | Template engine | Manifest format, install on a tenant, ownership tracking | High | done |
+| R-705 | CMS template | Article, Page, Category, Tag, Author; slugs, SEO, draft/published | High | done |
 
 ## Phase 8 — Template/plugin lifecycle and upgrades
 

@@ -1411,9 +1411,9 @@ is completed.
 ## Extensibility and CMS
 
 -   [x] Relationship engine
--   [ ] Media storage
--   [ ] CMS template
--   [ ] Template manifest
+-   [x] Media storage
+-   [x] CMS template
+-   [x] Template manifest
 -   [x] Config export/import
 -   [x] CLI
 -   [ ] Template diff/upgrade

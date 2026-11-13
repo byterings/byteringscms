@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { api } from '@/lib/api-client';
 import { errorMessage, fieldErrors } from '@/lib/errors';
 import { keys } from '@/lib/queries';
+import { slugify } from '@/lib/slug';
 import { useSession } from '@/lib/session';
 import { FieldInput } from './field-input';
 import { Alert, Button, Card, FormField } from './ui';
@@ -47,6 +48,11 @@ export function RecordForm({
   const role = session?.activeTenant?.role ?? 'viewer';
   const [values, setValues] = useState(() => initialValues(entity, record));
   const [errors, setErrors] = useState<Record<string, string>>({});
+  // Slug fields follow the title on new records until edited by hand.
+  const [slugTouched, setSlugTouched] = useState<Set<string>>(() => new Set());
+  const slugFields = entity.fields.filter(
+    (f) => f.type === 'text' && f.config.format === 'slug' && f.key !== entity.titleField,
+  );
   const initial = initialValues(entity, record);
 
   // The API only returns fields this user may read.
@@ -130,7 +136,19 @@ export function RecordForm({
               invalid={!!errors[field.key]}
               disabled={!canWrite(field)}
               onChange={(value) => {
-                setValues((current) => ({ ...current, [field.key]: value }));
+                setValues((current) => {
+                  const next = { ...current, [field.key]: value };
+                  if (!record && field.key === entity.titleField) {
+                    for (const slug of slugFields) {
+                      if (!slugTouched.has(slug.key))
+                        next[slug.key] = slugify(String(value ?? '')) || null;
+                    }
+                  }
+                  return next;
+                });
+                if (slugFields.some((f) => f.key === field.key)) {
+                  setSlugTouched((current) => new Set(current).add(field.key));
+                }
                 if (errors[field.key]) setErrors(({ [field.key]: _removed, ...rest }) => rest);
               }}
             />

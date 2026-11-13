@@ -52,7 +52,23 @@ export class ApiClient {
       body: options.body === undefined ? undefined : JSON.stringify(options.body),
       signal: options.signal,
     });
+    return this.parse<T>(response);
+  }
 
+  /** Multipart upload (the browser sets the multipart boundary). */
+  async upload<T>(path: string, form: FormData): Promise<T> {
+    const headers: Record<string, string> = { accept: 'application/json' };
+    if (this.csrfToken) headers['x-csrf-token'] = this.csrfToken;
+    const response = await this.fetchImpl(this.buildUrl(path), {
+      method: 'POST',
+      headers,
+      credentials: 'same-origin',
+      body: form,
+    });
+    return this.parse<T>(response);
+  }
+
+  private async parse<T>(response: Response): Promise<T> {
     if (response.status === 204) return undefined as T;
     const payload: unknown = await response.json().catch(() => null);
     if (!response.ok) {
