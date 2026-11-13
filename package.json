@@ -18,7 +18,10 @@
     "db:deploy": "pnpm --filter @byteringscms/api db:deploy",
     "db:migrate": "pnpm --filter @byteringscms/api db:migrate",
     "db:status": "pnpm --filter @byteringscms/api db:status",
-    "test:e2e": "turbo run build && pnpm --filter @byteringscms/admin test:e2e"
+    "test:e2e": "turbo run build && pnpm --filter @byteringscms/admin test:e2e",
+    "backup": "node scripts/backup.mjs",
+    "restore": "node scripts/restore.mjs",
+    "maintenance": "pnpm --filter @byteringscms/api cli:maintenance"
   },
   "devDependencies": {
     "@eslint/js": "^9",
