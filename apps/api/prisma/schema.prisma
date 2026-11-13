@@ -298,6 +298,36 @@ model TemplateInstallation {
   @@map("template_installations")
 }
 
+/// History of template upgrade attempts, including failures (ADR-011). Tenant-owned (RLS).
+model TemplateUpgrade {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  templateId  String   @map("template_id")
+  fromVersion String   @map("from_version")
+  toVersion   String   @map("to_version")
+  status      String
+  report      Json
+  actorId     String?  @map("actor_id")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([tenantId, templateId, createdAt])
+  @@map("template_upgrades")
+}
+
+/// Plugins enabled for a tenant (trusted, server-installed plugins). Tenant-owned (RLS).
+model PluginInstallation {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  pluginId  String   @map("plugin_id")
+  enabled   Boolean  @default(true)
+  config    Json     @default("{}")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@unique([tenantId, pluginId])
+  @@map("plugin_installations")
+}
+
 /// Snapshot of an entity definition after each change (ADR-020). Tenant-owned (RLS).
 model MetadataVersion {
   id        String   @id @default(uuid()) @db.Uuid

@@ -2,11 +2,11 @@
 
 ## Current State
 
-Phases 0-7 complete: foundation, identity/tenancy/authorization, metadata
+Phases 0-8 complete: foundation, identity/tenancy/authorization, metadata
 engine, record engine, Admin Studio vertical slice, relationships, API
-hardening and developer experience (OpenAPI, SDK, CLI, config as code, rate
-limits), and media + public API + template engine + CMS template.
-Next: Phase 8 — template upgrades and plugins.
+hardening and developer experience, media + public API + CMS template, and
+template upgrades + trusted plugins.
+Next: Phase 9 — production readiness.
 
 Branches: `main` (stable), `dev` (active work).
 

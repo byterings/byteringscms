@@ -13,6 +13,7 @@ import { MediaModule } from './media/media.module';
 import { MembersModule } from './members/members.module';
 import { MetadataModule } from './metadata/metadata.module';
 import { OpenApiModule } from './openapi/openapi.module';
+import { PluginsModule } from './plugins/plugins.module';
 import { PublicApiModule } from './public-api/public.module';
 import { RecordsModule } from './records/records.module';
 import { TemplatesModule } from './templates/templates.module';
@@ -35,6 +36,7 @@ export class AppModule {
         MembersModule,
         MetadataModule,
         MediaModule,
+        PluginsModule,
         RecordsModule,
         ConfigSyncModule,
         TemplatesModule,

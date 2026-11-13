@@ -143,7 +143,7 @@ export default function StudioLayout({ children }: { children: ReactNode }) {
                 ) : null}
                 {can('templates:manage') ? (
                   <NavLink href="/templates" icon={LayoutTemplate}>
-                    Templates
+                    Templates &amp; plugins
                   </NavLink>
                 ) : null}
                 {can('apikeys:manage') ? (

@@ -25,6 +25,7 @@ import {
   uniqueValueKey,
   validateRecordInput,
 } from './record-validation';
+import { PluginsService } from '../plugins/plugins.service';
 import { RelationsService } from './relations.service';
 
 interface RawRecord {
@@ -73,6 +74,7 @@ export class RecordsService {
     private readonly metadata: MetadataService,
     private readonly audit: AuditService,
     private readonly relations: RelationsService,
+    private readonly plugins: PluginsService,
   ) {}
 
   list(ctx: TenantContext, entityKey: string, query: RecordListQuery) {
@@ -123,7 +125,7 @@ export class RecordsService {
     });
   }
 
-  create(
+  async create(
     ctx: TenantContext,
     entityKey: string,
     body: CreateRecordRequest,
@@ -131,15 +133,23 @@ export class RecordsService {
   ): Promise<RecordItem> {
     const run = <T>(fn: (tx: Tx) => Promise<T>) =>
       outerTx ? fn(outerTx) : this.db.run(ctx.tenantId, fn);
-    return run(async (tx) => {
+    const result = await run(async (tx) => {
       const entity = await this.loadEntity(tx, ctx, entityKey);
       this.assertWritable(entity);
       const { values, changedKeys } = validateRecordInput(entity.fields, body.data, {
         mode: 'create',
         role: ctx.role,
       });
-      const data = mergeData({}, values);
-      await this.relations.validateTargets(tx, ctx, entity, values);
+      const plugin = await this.applyPlugins(
+        tx,
+        ctx,
+        entity,
+        'record.beforeCreate',
+        mergeData({}, values),
+        null,
+      );
+      const data = plugin.data;
+      await this.relations.validateTargets(tx, ctx, entity, { ...values, ...plugin.values });
       const row = await tx.record.create({
         data: {
           tenantId: ctx.tenantId,
@@ -155,19 +165,26 @@ export class RecordsService {
         action: 'record.created',
         targetType: entity.key,
         targetId: row.id,
-        changedKeys,
+        changedKeys: [...new Set([...changedKeys, ...plugin.keys])],
       });
-      return this.toItem(entity, row, ctx);
+      return { item: this.toItem(entity, row, ctx), data };
     });
+    void this.plugins.runAfter(ctx.tenantId, 'record.afterCreate', {
+      tenantId: ctx.tenantId,
+      entity: entityKey,
+      recordId: result.item.id,
+      data: result.data,
+    });
+    return result.item;
   }
 
-  update(
+  async update(
     ctx: TenantContext,
     entityKey: string,
     id: string,
     body: UpdateRecordRequest,
   ): Promise<RecordItem> {
-    return this.db.run(ctx.tenantId, async (tx) => {
+    const result = await this.db.run(ctx.tenantId, async (tx) => {
       const entity = await this.loadEntity(tx, ctx, entityKey);
       this.assertWritable(entity);
       const current = await this.findLive(tx, ctx, entity, id);
@@ -178,8 +195,17 @@ export class RecordsService {
         mode: 'update',
         role: ctx.role,
       });
-      const data = mergeData(current.data as RecordData, values);
-      await this.relations.validateTargets(tx, ctx, entity, values);
+      const previous = current.data as RecordData;
+      const plugin = await this.applyPlugins(
+        tx,
+        ctx,
+        entity,
+        'record.beforeUpdate',
+        mergeData(previous, values),
+        previous,
+      );
+      const data = plugin.data;
+      await this.relations.validateTargets(tx, ctx, entity, { ...values, ...plugin.values });
       const result = await tx.record.updateMany({
         where: { id, tenantId: ctx.tenantId, version: current.version, deletedAt: null },
         data: {
@@ -196,15 +222,22 @@ export class RecordsService {
         action: 'record.updated',
         targetType: entity.key,
         targetId: id,
-        changedKeys,
+        changedKeys: [...new Set([...changedKeys, ...plugin.keys])],
       });
-      return this.toItem(entity, await this.findLive(tx, ctx, entity, id), ctx);
+      return { item: this.toItem(entity, await this.findLive(tx, ctx, entity, id), ctx), data };
     });
+    void this.plugins.runAfter(ctx.tenantId, 'record.afterUpdate', {
+      tenantId: ctx.tenantId,
+      entity: entityKey,
+      recordId: id,
+      data: result.data,
+    });
+    return result.item;
   }
 
   /** Soft delete (ADR-015). Releases unique values. */
-  remove(ctx: TenantContext, entityKey: string, id: string): Promise<void> {
-    return this.db.run(ctx.tenantId, async (tx) => {
+  async remove(ctx: TenantContext, entityKey: string, id: string): Promise<void> {
+    const data = await this.db.run(ctx.tenantId, async (tx) => {
       const entity = await this.loadEntity(tx, ctx, entityKey);
       this.assertWritable(entity);
       const result = await tx.record.updateMany({
@@ -218,6 +251,14 @@ export class RecordsService {
         targetType: entity.key,
         targetId: id,
       });
+      const row = await tx.record.findUniqueOrThrow({ where: { id }, select: { data: true } });
+      return row.data as RecordData;
+    });
+    void this.plugins.runAfter(ctx.tenantId, 'record.afterDelete', {
+      tenantId: ctx.tenantId,
+      entity: entityKey,
+      recordId: id,
+      data,
     });
   }
 
@@ -350,6 +391,35 @@ export class RecordsService {
         data: { tenantId: ctx.tenantId, fieldId: field.id, value: key, recordId },
       });
     }
+  }
+
+  /**
+   * Runs plugin before-hooks and validates their changes like user input.
+   * Plugins are trusted server code, so field write roles do not apply.
+   */
+  private async applyPlugins(
+    tx: Tx,
+    ctx: TenantContext,
+    entity: EntityWithFields,
+    event: 'record.beforeCreate' | 'record.beforeUpdate',
+    data: RecordData,
+    previous: RecordData | null,
+  ): Promise<{ data: RecordData; values: RecordData; keys: string[] }> {
+    const changes = await this.plugins.runBefore(
+      tx,
+      ctx.tenantId,
+      event,
+      entity.key,
+      entity.fields.map((f) => f.key),
+      data,
+      previous,
+    );
+    if (Object.keys(changes).length === 0) return { data, values: {}, keys: [] };
+    const { values, changedKeys } = validateRecordInput(entity.fields, changes, {
+      mode: 'update',
+      role: 'owner',
+    });
+    return { data: mergeData(data, values), values, keys: changedKeys };
   }
 
   private assertWritable(entity: EntityWithFields): void {

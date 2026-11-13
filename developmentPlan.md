@@ -1416,8 +1416,8 @@ is completed.
 -   [x] Template manifest
 -   [x] Config export/import
 -   [x] CLI
--   [ ] Template diff/upgrade
--   [ ] Plugin contract
+-   [x] Template diff/upgrade
+-   [x] Plugin contract
 
 ## Operations
 

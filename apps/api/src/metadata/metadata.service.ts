@@ -422,7 +422,6 @@ export class MetadataService {
       data: {
         ...data,
         version: { increment: 1 },
-        ...(entity.owner !== 'tenant' ? { overridden: true } : {}),
       },
       include: withFields,
     });

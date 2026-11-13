@@ -12,4 +12,5 @@ export * from './records';
 export * from './config';
 export * from './media';
 export * from './templates';
+export * from './plugins';
 export * from './openapi';

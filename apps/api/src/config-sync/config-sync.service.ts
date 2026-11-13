@@ -20,7 +20,7 @@ import { toEntity, withFields } from '../metadata/metadata.mapper';
 import { MetadataService } from '../metadata/metadata.service';
 
 const PLACEHOLDER_ID = '00000000-0000-4000-8000-000000000000';
-const ENTITY_ATTRS = [
+export const ENTITY_ATTRS = [
   'name',
   'pluralName',
   'description',
@@ -30,7 +30,7 @@ const ENTITY_ATTRS = [
   'publishValue',
   'status',
 ] as const;
-const FIELD_ATTRS = [
+export const FIELD_ATTRS = [
   'label',
   'description',
   'required',
@@ -42,10 +42,15 @@ const FIELD_ATTRS = [
   'config',
 ] as const;
 
-type NormalizedField = Required<Omit<ConfigField, 'config'>> & { config: Record<string, unknown> };
-type NormalizedEntity = Required<Omit<ConfigEntity, 'fields'>> & { fields: NormalizedField[] };
+export type NormalizedField = Required<Omit<ConfigField, 'config'>> & {
+  config: Record<string, unknown>;
+};
+export type NormalizedEntity = Required<Omit<ConfigEntity, 'fields'>> & {
+  fields: NormalizedField[];
+};
 
-const same = (a: unknown, b: unknown) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+export const same = (a: unknown, b: unknown) =>
+  JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
 
 /**
  * Configuration as code (ADR-010). Export produces a portable document;
@@ -120,7 +125,7 @@ export class ConfigSyncService {
 
   // ---------------------------------------------------------------------------
 
-  private exportEntity(entity: EntityDefinition, keyById: Map<string, string>): ConfigEntity {
+  exportEntity(entity: EntityDefinition, keyById: Map<string, string>): ConfigEntity {
     return {
       key: entity.key,
       name: entity.name,
@@ -157,7 +162,7 @@ export class ConfigSyncService {
   }
 
   /** Applies defaults and canonical config so documents compare reliably. */
-  private normalize(entity: ConfigEntity, issues: ConfigPlan['conflicts']): NormalizedEntity {
+  normalize(entity: ConfigEntity, issues: ConfigPlan['conflicts']): NormalizedEntity {
     const fields: NormalizedField[] = [];
     for (const field of entity.fields) {
       const raw = { ...(field.config ?? {}) };

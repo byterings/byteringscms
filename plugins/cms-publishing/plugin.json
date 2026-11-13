@@ -1,0 +1,9 @@
+{
+  "id": "cms-publishing",
+  "name": "CMS publishing helpers",
+  "version": "1.0.0",
+  "description": "Sets publishedAt when an article or page is first published, and fills an empty SEO title from the title.",
+  "capabilities": ["records:modify", "records:observe"],
+  "entities": ["article", "page"],
+  "main": "index.js"
+}

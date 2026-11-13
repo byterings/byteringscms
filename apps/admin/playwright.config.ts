@@ -35,6 +35,7 @@ export default defineConfig({
         TENANCY_MODE: 'multi',
         STORAGE_LOCAL_DIR: process.env.E2E_STORAGE_DIR ?? '',
         TEMPLATES_DIR: '../../templates',
+        PLUGINS_DIR: '../../plugins',
         // The suite signs in many times from one IP; production keeps the default.
         AUTH_RATE_LIMIT_PER_MINUTE: '1000',
         NODE_ENV: 'development',

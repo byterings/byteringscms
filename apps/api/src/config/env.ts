@@ -65,6 +65,10 @@ export const envSchema = z.object({
     .default(10 * 1024 * 1024),
   /** Directory containing application templates (each with template.json). */
   TEMPLATES_DIR: z.string().optional(),
+  /** Directory containing trusted plugins (each with plugin.json). */
+  PLUGINS_DIR: z.string().optional(),
+  /** Maximum time a plugin hook may run, in milliseconds. */
+  PLUGIN_HOOK_TIMEOUT_MS: z.coerce.number().int().min(10).max(60_000).default(2000),
   /** When set, first-run setup requires the header `x-setup-token` to match. */
   SETUP_TOKEN: z.string().min(16).optional(),
 });

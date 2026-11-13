@@ -36,7 +36,14 @@ import {
 } from './fields';
 import { mediaSchema, updateMediaRequestSchema } from './media';
 import { addMemberRequestSchema, memberSchema, updateMemberRequestSchema } from './members';
-import { installTemplateRequestSchema, templateInfoSchema } from './templates';
+import { pluginInfoSchema } from './plugins';
+import {
+  installTemplateRequestSchema,
+  templateInfoSchema,
+  templateUpgradeSchema,
+  upgradePlanSchema,
+  upgradeTemplateRequestSchema,
+} from './templates';
 import { pageMetaSchema } from './pagination';
 import { type Permission } from './permissions';
 import { createRecordRequestSchema, recordSchema, updateRecordRequestSchema } from './records';
@@ -658,6 +665,64 @@ export const API_OPERATIONS: OperationSpec[] = [
     body: installTemplateRequestSchema,
     response: data(templateInfoSchema),
     status: 201,
+  },
+
+  {
+    method: 'get',
+    path: '/admin/templates/{templateId}/upgrade-plan',
+    tag: 'Templates',
+    summary: 'Preview an upgrade to the available version',
+    auth: 'any',
+    permission: 'templates:manage',
+    response: data(upgradePlanSchema),
+  },
+  {
+    method: 'post',
+    path: '/admin/templates/{templateId}/upgrade',
+    tag: 'Templates',
+    summary: 'Upgrade a template (keeps tenant customizations)',
+    auth: 'any',
+    permission: 'templates:manage',
+    body: upgradeTemplateRequestSchema,
+    response: data(upgradePlanSchema),
+  },
+  {
+    method: 'get',
+    path: '/admin/templates/{templateId}/upgrades',
+    tag: 'Templates',
+    summary: 'Upgrade history, including failed attempts',
+    auth: 'any',
+    permission: 'templates:manage',
+    response: data(z.array(templateUpgradeSchema)),
+  },
+
+  // Plugins (trusted, server-installed)
+  {
+    method: 'get',
+    path: '/admin/plugins',
+    tag: 'Plugins',
+    summary: 'Installed plugins and their state for this tenant',
+    auth: 'any',
+    permission: 'templates:manage',
+    response: data(z.array(pluginInfoSchema)),
+  },
+  {
+    method: 'post',
+    path: '/admin/plugins/{pluginId}/enable',
+    tag: 'Plugins',
+    summary: 'Enable a plugin for this tenant',
+    auth: 'any',
+    permission: 'templates:manage',
+    response: data(pluginInfoSchema),
+  },
+  {
+    method: 'post',
+    path: '/admin/plugins/{pluginId}/disable',
+    tag: 'Plugins',
+    summary: 'Disable a plugin for this tenant',
+    auth: 'any',
+    permission: 'templates:manage',
+    response: data(pluginInfoSchema),
   },
 
   // Public content API (ADR-025)

@@ -48,7 +48,6 @@ const REF_RE = /^@([a-z][a-z0-9_-]*):(\d+)$/;
 @Injectable()
 export class TemplatesService {
   private readonly logger = new Logger('TemplatesService');
-  private cache: Map<string, TemplateManifest> | null = null;
 
   constructor(
     @Inject(APP_ENV) private readonly env: Env,
@@ -62,8 +61,8 @@ export class TemplatesService {
     return resolve(this.env.TEMPLATES_DIR ?? join(process.cwd(), '..', '..', 'templates'));
   }
 
+  /** Reads manifests from disk on each call so new template versions are picked up. */
   async manifests(): Promise<Map<string, TemplateManifest>> {
-    if (this.cache) return this.cache;
     const found = new Map<string, TemplateManifest>();
     const dir = this.templatesDir();
     let entries: string[] = [];
@@ -87,7 +86,6 @@ export class TemplatesService {
       }
       found.set(parsed.data.id, parsed.data);
     }
-    this.cache = found;
     return found;
   }
 

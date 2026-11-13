@@ -339,4 +339,29 @@ test.describe.serial('vertical slice', () => {
     expect((await drafts.json()).meta.total).toBe(0);
     await anonymous.dispose();
   });
+
+  test('Phase 8. enable a plugin in the Admin Studio and see it act on new content', async ({
+    page,
+  }) => {
+    await uiSignIn(page, OWNER_B.email);
+    await page.goto('/templates');
+    await expect(page.getByText('Installed v1.0.0')).toBeVisible();
+    await page.getByRole('button', { name: 'Enable CMS publishing helpers' }).click();
+    await expect(
+      page.getByRole('button', { name: 'Disable CMS publishing helpers' }),
+    ).toBeVisible();
+
+    const { api, csrf } = await signIn(OWNER_B.email);
+    const created = await api.post('/api/v1/entities/article/records', {
+      headers: { 'x-csrf-token': csrf },
+      data: {
+        data: { title: 'Stamped by a plugin', slug: 'stamped', body: 'x', status: 'published' },
+      },
+    });
+    expect(created.status()).toBe(201);
+    const record = (await created.json()).data;
+    expect(record.data.seoTitle).toBe('Stamped by a plugin');
+    expect(record.data.publishedAt).not.toBeNull();
+    await api.dispose();
+  });
 });

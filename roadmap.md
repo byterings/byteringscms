@@ -105,8 +105,8 @@ IDs: `R-000` documentation; `R-0xx` Phase 0; `R-1xx` Phase 1; … `R-9xx` Phase 
 
 | ID | Title | Description | Priority | Status |
 | -- | ----- | ----------- | -------- | ------ |
-| R-801 | Template upgrades | Plan/diff, conflict detection for overrides (ADR-026), upgrade history | High | pending |
-| R-802 | Plugin contract | Manifest, capabilities, trusted lifecycle hooks, sample plugin | Medium | pending |
+| R-801 | Template upgrades | Plan/diff, conflict detection for overrides (ADR-026), upgrade history | High | done |
+| R-802 | Plugin contract | Manifest, capabilities, trusted lifecycle hooks, sample plugin | Medium | done |
 
 ## Phase 9 — Production readiness
 
