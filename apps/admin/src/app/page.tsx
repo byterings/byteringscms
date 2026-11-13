@@ -1,12 +1,27 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { Loading } from '@/components/ui';
+import { useSetupStatus } from '@/lib/queries';
+import { useSession } from '@/lib/session';
+
+/** Routes to setup, login or the studio depending on installation and session state. */
 export default function HomePage() {
+  const router = useRouter();
+  const setup = useSetupStatus();
+  const { session, loading } = useSession();
+
+  useEffect(() => {
+    if (setup.isLoading || loading) return;
+    if (setup.data && !setup.data.initialized) router.replace('/setup');
+    else if (session) router.replace('/dashboard');
+    else router.replace('/login');
+  }, [setup.isLoading, setup.data, loading, session, router]);
+
   return (
-    <main className="flex min-h-full items-center justify-center p-8">
-      <div className="max-w-md rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
-        <h1 className="text-xl font-semibold">Admin Studio</h1>
-        <p className="mt-2 text-sm text-slate-600">
-          The administration interface for the platform. Sign-in arrives in Phase 4.
-        </p>
-      </div>
+    <main className="mx-auto max-w-md p-8">
+      <Loading />
     </main>
   );
 }

@@ -1,15 +1,12 @@
 import type { NextConfig } from 'next';
 
-// The Admin Studio talks to the API through a same-origin proxy so session
-// cookies stay first-party and no credentialed CORS is needed.
-const apiUrl = process.env.API_URL ?? 'http://localhost:4000';
-
+// API requests go through the runtime proxy in src/app/api/[...path]/route.ts,
+// which reads API_URL at runtime (not at build time).
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  async rewrites() {
-    return [{ source: '/api/:path*', destination: `${apiUrl}/api/:path*` }];
-  },
+  // Container builds set NEXT_OUTPUT=standalone for a minimal runtime image.
+  output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   async headers() {
     return [
       {
