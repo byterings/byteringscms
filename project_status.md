@@ -2,8 +2,8 @@
 
 ## Current State
 
-Phase 0 (repository and engineering foundation) complete.
-Next: Phase 1 — identity, tenancy and authorization (R-101 … R-107).
+Phase 0 (foundation) and Phase 1 (identity, tenancy, authorization)
+complete. Next: Phase 2 — metadata engine (R-201 … R-204).
 
 Branches: `main` (stable), `dev` (active work).
 
@@ -68,6 +68,43 @@ Decisions:
 - API build uses `tsc` (Nest CLI) for correct output layout; tests use
   Vitest + SWC for decorator metadata.
 
+### R-101 … R-107 — Phase 1 identity, tenancy and authorization
+- Status: done
+
+Files Changed:
+- `apps/api/prisma/schema.prisma`, migration `*_identity_tenancy` (tables
+  + RLS policies via `app_rls_allows()`)
+- `apps/api/src/database/tenant-db.service.ts` — `run(tenantId)` /
+  `system()` transactions that set the RLS context
+- `apps/api/src/auth/*` — Argon2id passwords, DB sessions, CSRF, API keys,
+  global `AuthGuard`, `Authenticator`
+- `apps/api/src/tenancy/*` — tenant resolution, current tenant, platform
+  tenant provisioning, first-run setup (API + `cli:setup`)
+- `apps/api/src/members/*`, `apps/api/src/audit/*`
+- `packages/contracts/src/{permissions,auth,members,api-keys,tenants,audit,pagination}.ts`
+
+Endpoints (all under `/api/v1`):
+- `GET /setup/status`, `POST /setup`
+- `POST /auth/login`, `GET /auth/session`, `POST /auth/logout`,
+  `POST /auth/switch-tenant`, `POST /auth/password`
+- `GET|PATCH /tenant`
+- `GET|POST /admin/members`, `PATCH|DELETE /admin/members/:id`
+- `GET|POST /admin/api-keys`, `DELETE /admin/api-keys/:id`
+- `GET /admin/audit-events`
+- `GET|POST /platform/tenants`, `PATCH /platform/tenants/:id/status`
+
+Tests: 50 API tests pass (RLS 7, auth 11, setup 7, isolation 15,
+health 6, env 4); contracts 9.
+
+Decisions:
+- Tenant isolation is enforced twice: explicit `tenantId` filters and
+  PostgreSQL RLS (`FORCE ROW LEVEL SECURITY`, non-superuser role).
+- `TenantDb.system()` (RLS bypass) is used only for login lookups, setup,
+  platform provisioning and a user's own membership list.
+- API keys act with a role derived from their scopes for field-level checks.
+- Migrations are generated with `pnpm --filter @byteringscms/api
+  db:new-migration <name>` (`prisma migrate diff` + shadow DB).
+
 ---
 
 ## In Progress
@@ -76,7 +113,6 @@ None
 ---
 
 ## Pending
-- Phase 1: R-101 … R-107
 - Phases 2–9: see `roadmap.md`
 
 ---

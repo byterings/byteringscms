@@ -35,13 +35,13 @@ IDs: `R-000` documentation; `R-0xx` Phase 0; `R-1xx` Phase 1; … `R-9xx` Phase 
 
 | ID | Title | Description | Priority | Status |
 | -- | ----- | ----------- | -------- | ------ |
-| R-101 | Tenancy data model | Installation, tenants, users, memberships, sessions, API keys tables | High | pending |
-| R-102 | Authentication | Argon2id passwords, DB sessions, httpOnly cookie, CSRF, login/logout/me (ADR-013) | High | pending |
-| R-103 | Tenant context | Request-scoped tenant resolution (ADR-017), tenant-scoped data access, PostgreSQL RLS defense | High | pending |
-| R-104 | Roles and permissions | Built-in roles and permission matrix, authorization service and guards (ADR-018) | High | pending |
-| R-105 | Audit foundation | Audit event service and storage (ADR-024) | High | pending |
-| R-106 | Bootstrap | Installation setup command creating the first tenant and owner; tenant switch | High | pending |
-| R-107 | Tenant isolation suite | Two-tenant integration tests for every tenant-owned resource | High | pending |
+| R-101 | Tenancy data model | Installation, tenants, users, memberships, sessions, API keys tables | High | done |
+| R-102 | Authentication | Argon2id passwords, DB sessions, httpOnly cookie, CSRF, login/logout/me (ADR-013) | High | done |
+| R-103 | Tenant context | Request-scoped tenant resolution (ADR-017), tenant-scoped data access, PostgreSQL RLS defense | High | done |
+| R-104 | Roles and permissions | Built-in roles and permission matrix, authorization service and guards (ADR-018) | High | done |
+| R-105 | Audit foundation | Audit event service and storage (ADR-024) | High | done |
+| R-106 | Bootstrap | Installation setup command creating the first tenant and owner; tenant switch | High | done |
+| R-107 | Tenant isolation suite | Two-tenant integration tests for every tenant-owned resource | High | done |
 
 ## Phase 2 — Metadata engine
 

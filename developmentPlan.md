@@ -1375,15 +1375,15 @@ is completed.
 
 ## Identity and tenancy
 
--   [ ] Installation model
--   [ ] Tenant model
--   [ ] User model
--   [ ] Membership model
--   [ ] Authentication
--   [ ] Tenant resolution
--   [ ] Roles and permissions
--   [ ] Tenant isolation tests
--   [ ] Audit event foundation
+-   [x] Installation model
+-   [x] Tenant model
+-   [x] User model
+-   [x] Membership model
+-   [x] Authentication
+-   [x] Tenant resolution
+-   [x] Roles and permissions
+-   [x] Tenant isolation tests
+-   [x] Audit event foundation
 
 ## Metadata and records
 
