@@ -26,9 +26,27 @@ export const envSchema = z.object({
         .filter(Boolean),
     ),
   TRUST_PROXY: booleanString.default(false),
+  SESSION_COOKIE_NAME: z
+    .string()
+    .regex(/^[A-Za-z0-9_-]+$/)
+    .default('bcms_session'),
+  SESSION_TTL_HOURS: z.coerce
+    .number()
+    .int()
+    .min(1)
+    .max(24 * 90)
+    .default(168),
+  /** Defaults to true in production. */
+  COOKIE_SECURE: booleanString.optional(),
+  /** When set, first-run setup requires the header `x-setup-token` to match. */
+  SETUP_TOKEN: z.string().min(16).optional(),
 });
 
 export type Env = z.infer<typeof envSchema>;
+
+export function cookieSecure(env: Env): boolean {
+  return env.COOKIE_SECURE ?? env.NODE_ENV === 'production';
+}
 
 export class EnvValidationError extends Error {
   constructor(public readonly issues: string[]) {

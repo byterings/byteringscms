@@ -7,6 +7,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { type ApiError } from '@byteringscms/contracts';
+import { Prisma } from '@prisma/client';
 import { type Response } from 'express';
 import { ZodError } from 'zod';
 import { AppError } from './app-error';
@@ -46,6 +47,22 @@ export class HttpExceptionFilter implements ExceptionFilter {
           error: { code: exception.code, message: exception.message, details: exception.details },
         },
       };
+    }
+    if (exception instanceof Prisma.PrismaClientKnownRequestError) {
+      if (exception.code === 'P2002') {
+        return {
+          status: HttpStatus.CONFLICT,
+          body: {
+            error: { code: 'CONFLICT', message: 'A resource with these values already exists' },
+          },
+        };
+      }
+      if (exception.code === 'P2025') {
+        return {
+          status: HttpStatus.NOT_FOUND,
+          body: { error: { code: 'NOT_FOUND', message: 'Resource not found' } },
+        };
+      }
     }
     if (exception instanceof ZodError) {
       return {

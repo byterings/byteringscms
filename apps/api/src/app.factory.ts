@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import cookieParser from 'cookie-parser';
 import { type NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/http-exception.filter';
@@ -22,6 +23,7 @@ export function configureApp(app: NestExpressApplication, env: Env): void {
   app.set('trust proxy', env.TRUST_PROXY);
   app.disable('x-powered-by');
   app.useBodyParser('json', { limit: '1mb' });
+  app.use(cookieParser());
   app.setGlobalPrefix(API_PREFIX);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.enableCors({ origin: env.CORS_ORIGINS, credentials: true });
