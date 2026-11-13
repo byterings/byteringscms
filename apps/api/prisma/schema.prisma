@@ -158,8 +158,9 @@ model Entity {
   createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt    DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
 
-  tenant Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  fields Field[]
+  tenant  Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  fields  Field[]
+  records Record[]
 
   @@unique([tenantId, key])
   @@unique([id, tenantId])
@@ -190,11 +191,50 @@ model Field {
   createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt    DateTime       @updatedAt @map("updated_at") @db.Timestamptz(3)
 
-  entity Entity @relation(fields: [entityId, tenantId], references: [id, tenantId], onDelete: Cascade)
+  entity       Entity              @relation(fields: [entityId, tenantId], references: [id, tenantId], onDelete: Cascade)
+  uniqueValues RecordUniqueValue[]
 
   @@unique([entityId, key])
   @@index([tenantId])
   @@map("fields")
+}
+
+/// Metadata-managed record (ADR-004). Values live in `data` (JSONB), keyed by
+/// field key; null values are not stored. Tenant-owned (RLS). Soft-deletable
+/// (ADR-015) with optimistic concurrency via `version` (ADR-019).
+model Record {
+  id          String    @id @default(uuid()) @db.Uuid
+  tenantId    String    @map("tenant_id") @db.Uuid
+  entityId    String    @map("entity_id") @db.Uuid
+  data        Json      @default("{}")
+  version     Int       @default(1)
+  createdById String?   @map("created_by")
+  updatedById String?   @map("updated_by")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamptz(3)
+
+  entity       Entity              @relation(fields: [entityId, tenantId], references: [id, tenantId], onDelete: Cascade)
+  uniqueValues RecordUniqueValue[]
+
+  @@unique([id, tenantId])
+  @@index([tenantId, entityId, deletedAt, createdAt])
+  @@map("records")
+}
+
+/// Enforces unique field values across a tenant's live records (ADR-021).
+model RecordUniqueValue {
+  tenantId String @map("tenant_id") @db.Uuid
+  fieldId  String @map("field_id") @db.Uuid
+  value    String
+  recordId String @map("record_id") @db.Uuid
+
+  record Record @relation(fields: [recordId, tenantId], references: [id, tenantId], onDelete: Cascade)
+  field  Field  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+
+  @@id([fieldId, value])
+  @@index([recordId])
+  @@map("record_unique_values")
 }
 
 /// Snapshot of an entity definition after each change (ADR-020). Tenant-owned (RLS).

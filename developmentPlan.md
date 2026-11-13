@@ -1392,11 +1392,11 @@ is completed.
 -   [x] Field type registry
 -   [x] Metadata validation
 -   [x] Metadata versioning
--   [ ] JSONB record persistence
--   [ ] Record CRUD
--   [ ] Dynamic validation
--   [ ] Filtering/sorting/pagination
--   [ ] Field permissions
+-   [x] JSONB record persistence
+-   [x] Record CRUD
+-   [x] Dynamic validation
+-   [x] Filtering/sorting/pagination
+-   [x] Field permissions
 
 ## Admin and API
 

@@ -56,12 +56,12 @@ IDs: `R-000` documentation; `R-0xx` Phase 0; `R-1xx` Phase 1; … `R-9xx` Phase 
 
 | ID | Title | Description | Priority | Status |
 | -- | ----- | ----------- | -------- | ------ |
-| R-301 | Record CRUD | JSONB records, create/read/update/delete via `/api/v1/entities/:entityKey/records` | High | pending |
-| R-302 | Record validation | Metadata-driven validation, defaults, required, unique values (ADR-021) | High | pending |
-| R-303 | Querying | Pagination with hard maximum, sorting, filtering by type-safe operators, field selection | High | pending |
-| R-304 | Field permissions | Field read/write rules in serialization and writes | High | pending |
-| R-305 | Concurrency and soft delete | `version` conflicts (ADR-019), soft delete + restore (ADR-015) | High | pending |
-| R-306 | Record audit and isolation | Audit events and cross-tenant tests for records | High | pending |
+| R-301 | Record CRUD | JSONB records, create/read/update/delete via `/api/v1/entities/:entityKey/records` | High | done |
+| R-302 | Record validation | Metadata-driven validation, defaults, required, unique values (ADR-021) | High | done |
+| R-303 | Querying | Pagination with hard maximum, sorting, filtering by type-safe operators, field selection | High | done |
+| R-304 | Field permissions | Field read/write rules in serialization and writes | High | done |
+| R-305 | Concurrency and soft delete | `version` conflicts (ADR-019), soft delete + restore (ADR-015) | High | done |
+| R-306 | Record audit and isolation | Audit events and cross-tenant tests for records | High | done |
 
 ## Phase 4 — Admin Studio vertical slice
 

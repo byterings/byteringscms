@@ -8,3 +8,4 @@ export * from './api-keys';
 export * from './audit';
 export * from './fields';
 export * from './entities';
+export * from './records';
