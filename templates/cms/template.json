@@ -1,0 +1,317 @@
+{
+  "id": "cms",
+  "name": "Headless CMS",
+  "version": "1.0.0",
+  "description": "Articles, pages, categories, tags and authors with slugs, SEO fields, cover images and a draft/published workflow. Published content is readable through the public API.",
+  "platformVersion": "1.0.0",
+  "changelog": {
+    "1.0.0": "Initial release."
+  },
+  "entities": [
+    {
+      "key": "author",
+      "name": "Author",
+      "pluralName": "Authors",
+      "description": "People who write content.",
+      "titleField": "name",
+      "publicRead": true,
+      "fields": [
+        { "key": "name", "label": "Name", "type": "text", "required": true, "isPublic": true },
+        {
+          "key": "slug",
+          "label": "Slug",
+          "type": "text",
+          "required": true,
+          "unique": true,
+          "isPublic": true,
+          "config": { "format": "slug", "maxLength": 120 }
+        },
+        {
+          "key": "bio",
+          "label": "Biography",
+          "type": "longtext",
+          "isPublic": true,
+          "config": { "markdown": true, "maxLength": 5000 }
+        },
+        {
+          "key": "avatar",
+          "label": "Avatar",
+          "type": "media",
+          "isPublic": true,
+          "config": { "accept": ["image"] }
+        },
+        {
+          "key": "email",
+          "label": "Email",
+          "type": "text",
+          "description": "Internal contact address, never published.",
+          "config": { "format": "email" }
+        }
+      ]
+    },
+    {
+      "key": "category",
+      "name": "Category",
+      "pluralName": "Categories",
+      "titleField": "name",
+      "publicRead": true,
+      "fields": [
+        { "key": "name", "label": "Name", "type": "text", "required": true, "isPublic": true },
+        {
+          "key": "slug",
+          "label": "Slug",
+          "type": "text",
+          "required": true,
+          "unique": true,
+          "isPublic": true,
+          "config": { "format": "slug", "maxLength": 120 }
+        },
+        {
+          "key": "description",
+          "label": "Description",
+          "type": "longtext",
+          "isPublic": true,
+          "config": { "maxLength": 2000 }
+        }
+      ]
+    },
+    {
+      "key": "tag",
+      "name": "Tag",
+      "pluralName": "Tags",
+      "titleField": "name",
+      "publicRead": true,
+      "fields": [
+        { "key": "name", "label": "Name", "type": "text", "required": true, "isPublic": true },
+        {
+          "key": "slug",
+          "label": "Slug",
+          "type": "text",
+          "required": true,
+          "unique": true,
+          "isPublic": true,
+          "config": { "format": "slug", "maxLength": 120 }
+        }
+      ]
+    },
+    {
+      "key": "article",
+      "name": "Article",
+      "pluralName": "Articles",
+      "description": "Blog posts and news. Only published articles are public.",
+      "titleField": "title",
+      "publicRead": true,
+      "publishField": "status",
+      "publishValue": "published",
+      "fields": [
+        {
+          "key": "title",
+          "label": "Title",
+          "type": "text",
+          "required": true,
+          "isPublic": true,
+          "config": { "maxLength": 200 }
+        },
+        {
+          "key": "slug",
+          "label": "Slug",
+          "type": "text",
+          "required": true,
+          "unique": true,
+          "isPublic": true,
+          "config": { "format": "slug", "maxLength": 200 }
+        },
+        {
+          "key": "status",
+          "label": "Status",
+          "type": "select",
+          "required": true,
+          "isPublic": true,
+          "defaultValue": "draft",
+          "config": {
+            "options": [
+              { "value": "draft", "label": "Draft" },
+              { "value": "published", "label": "Published" }
+            ]
+          }
+        },
+        {
+          "key": "excerpt",
+          "label": "Excerpt",
+          "type": "longtext",
+          "isPublic": true,
+          "description": "Short summary for listings.",
+          "config": { "maxLength": 500 }
+        },
+        {
+          "key": "body",
+          "label": "Body",
+          "type": "longtext",
+          "required": true,
+          "isPublic": true,
+          "config": { "markdown": true, "maxLength": 200000 }
+        },
+        {
+          "key": "coverImage",
+          "label": "Cover image",
+          "type": "media",
+          "isPublic": true,
+          "config": { "accept": ["image"] }
+        },
+        {
+          "key": "author",
+          "label": "Author",
+          "type": "relation",
+          "isPublic": true,
+          "config": { "targetEntity": "author" }
+        },
+        {
+          "key": "category",
+          "label": "Category",
+          "type": "relation",
+          "isPublic": true,
+          "config": { "targetEntity": "category" }
+        },
+        {
+          "key": "tags",
+          "label": "Tags",
+          "type": "relation",
+          "isPublic": true,
+          "config": { "targetEntity": "tag", "cardinality": "many", "maxItems": 20 }
+        },
+        { "key": "publishedAt", "label": "Published at", "type": "datetime", "isPublic": true },
+        {
+          "key": "featured",
+          "label": "Featured",
+          "type": "boolean",
+          "isPublic": true,
+          "defaultValue": false
+        },
+        {
+          "key": "seoTitle",
+          "label": "SEO title",
+          "type": "text",
+          "isPublic": true,
+          "description": "Defaults to the title when empty.",
+          "config": { "maxLength": 70 }
+        },
+        {
+          "key": "seoDescription",
+          "label": "SEO description",
+          "type": "text",
+          "isPublic": true,
+          "config": { "maxLength": 160 }
+        }
+      ]
+    },
+    {
+      "key": "page",
+      "name": "Page",
+      "pluralName": "Pages",
+      "description": "Standalone pages such as About or Contact.",
+      "titleField": "title",
+      "publicRead": true,
+      "publishField": "status",
+      "publishValue": "published",
+      "fields": [
+        {
+          "key": "title",
+          "label": "Title",
+          "type": "text",
+          "required": true,
+          "isPublic": true,
+          "config": { "maxLength": 200 }
+        },
+        {
+          "key": "slug",
+          "label": "Slug",
+          "type": "text",
+          "required": true,
+          "unique": true,
+          "isPublic": true,
+          "config": { "format": "slug", "maxLength": 200 }
+        },
+        {
+          "key": "status",
+          "label": "Status",
+          "type": "select",
+          "required": true,
+          "isPublic": true,
+          "defaultValue": "draft",
+          "config": {
+            "options": [
+              { "value": "draft", "label": "Draft" },
+              { "value": "published", "label": "Published" }
+            ]
+          }
+        },
+        {
+          "key": "body",
+          "label": "Body",
+          "type": "longtext",
+          "required": true,
+          "isPublic": true,
+          "config": { "markdown": true, "maxLength": 200000 }
+        },
+        {
+          "key": "seoTitle",
+          "label": "SEO title",
+          "type": "text",
+          "isPublic": true,
+          "config": { "maxLength": 70 }
+        },
+        {
+          "key": "seoDescription",
+          "label": "SEO description",
+          "type": "text",
+          "isPublic": true,
+          "config": { "maxLength": 160 }
+        }
+      ]
+    }
+  ],
+  "sampleData": {
+    "author": [
+      { "name": "Ada Writer", "slug": "ada-writer", "bio": "Writes about software and design." }
+    ],
+    "category": [
+      { "name": "News", "slug": "news", "description": "Product and company news." },
+      { "name": "Guides", "slug": "guides", "description": "How-to articles." }
+    ],
+    "tag": [
+      { "name": "Getting started", "slug": "getting-started" },
+      { "name": "Announcements", "slug": "announcements" }
+    ],
+    "article": [
+      {
+        "title": "Hello, world",
+        "slug": "hello-world",
+        "status": "published",
+        "excerpt": "Our first published article.",
+        "body": "# Hello, world\n\nThis article was created by the CMS template.",
+        "author": "@author:0",
+        "category": "@category:0",
+        "tags": ["@tag:1"],
+        "publishedAt": "2026-01-01T09:00:00Z",
+        "featured": true
+      },
+      {
+        "title": "Writing your first guide",
+        "slug": "writing-your-first-guide",
+        "status": "draft",
+        "body": "Drafts are not visible through the public API.",
+        "author": "@author:0",
+        "category": "@category:1",
+        "tags": ["@tag:0"]
+      }
+    ],
+    "page": [
+      {
+        "title": "About",
+        "slug": "about",
+        "status": "published",
+        "body": "About this site."
+      }
+    ]
+  }
+}

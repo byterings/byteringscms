@@ -9,10 +9,13 @@ import { type Env } from './config/env';
 import { ConfigSyncModule } from './config-sync/config-sync.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
+import { MediaModule } from './media/media.module';
 import { MembersModule } from './members/members.module';
 import { MetadataModule } from './metadata/metadata.module';
 import { OpenApiModule } from './openapi/openapi.module';
+import { PublicApiModule } from './public-api/public.module';
 import { RecordsModule } from './records/records.module';
+import { TemplatesModule } from './templates/templates.module';
 import { TenancyModule } from './tenancy/tenancy.module';
 
 @Module({})
@@ -31,8 +34,11 @@ export class AppModule {
         AuthModule,
         MembersModule,
         MetadataModule,
+        MediaModule,
         RecordsModule,
         ConfigSyncModule,
+        TemplatesModule,
+        PublicApiModule,
         OpenApiModule,
         HealthModule,
       ],

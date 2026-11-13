@@ -123,8 +123,15 @@ export class RecordsService {
     });
   }
 
-  create(ctx: TenantContext, entityKey: string, body: CreateRecordRequest): Promise<RecordItem> {
-    return this.db.run(ctx.tenantId, async (tx) => {
+  create(
+    ctx: TenantContext,
+    entityKey: string,
+    body: CreateRecordRequest,
+    outerTx?: Tx,
+  ): Promise<RecordItem> {
+    const run = <T>(fn: (tx: Tx) => Promise<T>) =>
+      outerTx ? fn(outerTx) : this.db.run(ctx.tenantId, fn);
+    return run(async (tx) => {
       const entity = await this.loadEntity(tx, ctx, entityKey);
       this.assertWritable(entity);
       const { values, changedKeys } = validateRecordInput(entity.fields, body.data, {

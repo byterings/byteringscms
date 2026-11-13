@@ -36,6 +36,27 @@ export class RelationsService {
   ): Promise<void> {
     const issues: { path: string; message: string }[] = [];
     for (const field of entity.fields) {
+      if (field.type === 'media' && field.key in values) {
+        const ids = [...new Set(idsOf(values[field.key]).map((id) => id.toLowerCase()))];
+        if (ids.length === 0) continue;
+        const { accept } = fieldConfigSchemas.media.parse(field.config);
+        const found = await tx.media.findMany({
+          where: { id: { in: ids }, tenantId: ctx.tenantId, deletedAt: null },
+          select: { kind: true },
+        });
+        if (found.length !== ids.length) {
+          issues.push({ path: `data.${field.key}`, message: 'Referenced media not found' });
+        } else if (
+          accept &&
+          found.some((m) => !accept.includes(m.kind as (typeof accept)[number]))
+        ) {
+          issues.push({
+            path: `data.${field.key}`,
+            message: `Only ${accept.join(', ')} files are allowed`,
+          });
+        }
+        continue;
+      }
       if (field.type !== 'relation' || !(field.key in values)) continue;
       const ids = [...new Set(idsOf(values[field.key]).map((id) => id.toLowerCase()))];
       if (ids.length === 0) continue;

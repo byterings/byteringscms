@@ -75,31 +75,47 @@ export class ConfigSyncService {
 
   async apply(ctx: TenantContext, request: ConfigApplyRequest): Promise<ConfigPlan> {
     return this.db.run(ctx.tenantId, async (tx) => {
-      const plan = await this.plan(tx, ctx, request, request.prune);
-      if (plan.conflicts.length) {
-        throw new AppError(
-          'CONFIG_CONFLICTS',
-          'The document contains changes that cannot be applied',
-          HttpStatus.CONFLICT,
-          plan,
-        );
-      }
-      if (plan.destructive && !request.confirmDestructive) {
-        throw new AppError(
-          'DESTRUCTIVE_CHANGES',
-          'The plan deletes entities or fields; resend with confirmDestructive: true',
-          HttpStatus.CONFLICT,
-          plan,
-        );
-      }
-      await this.execute(tx, ctx, request, plan);
+      const plan = await this.applyInTx(tx, ctx, request, request);
       await this.audit.record(tx, ctx, {
         action: 'config.applied',
         targetType: 'config',
         metadata: { changes: plan.changes.length, destructive: plan.destructive },
       });
-      return { ...plan, applied: true };
+      return plan;
     });
+  }
+
+  /** Plans, checks and executes a document inside the caller's transaction. */
+  async applyInTx(
+    tx: Tx,
+    ctx: TenantContext,
+    doc: ConfigDocument,
+    opts: { prune?: boolean; confirmDestructive?: boolean } = {},
+  ): Promise<ConfigPlan> {
+    const plan = await this.plan(tx, ctx, doc, opts.prune ?? false);
+    if (plan.conflicts.length) {
+      throw new AppError(
+        'CONFIG_CONFLICTS',
+        'The document contains changes that cannot be applied',
+        HttpStatus.CONFLICT,
+        plan,
+      );
+    }
+    if (plan.destructive && !opts.confirmDestructive) {
+      throw new AppError(
+        'DESTRUCTIVE_CHANGES',
+        'The plan deletes entities or fields; resend with confirmDestructive: true',
+        HttpStatus.CONFLICT,
+        plan,
+      );
+    }
+    await this.execute(tx, ctx, doc, plan);
+    return { ...plan, applied: true };
+  }
+
+  /** Read-only plan inside the caller's transaction. */
+  planInTx(tx: Tx, ctx: TenantContext, doc: ConfigDocument, prune = false): Promise<ConfigPlan> {
+    return this.plan(tx, ctx, doc, prune);
   }
 
   // ---------------------------------------------------------------------------

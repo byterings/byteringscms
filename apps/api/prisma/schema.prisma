@@ -261,6 +261,43 @@ model RecordLink {
   @@map("record_links")
 }
 
+/// Uploaded file metadata (ADR-023). The bytes live in the storage driver
+/// under a tenant-prefixed key. Tenant-owned (RLS). Soft-deletable.
+model Media {
+  id          String    @id @default(uuid()) @db.Uuid
+  tenantId    String    @map("tenant_id") @db.Uuid
+  storageKey  String    @unique @map("storage_key")
+  filename    String
+  mimeType    String    @map("mime_type")
+  kind        String
+  size        Int
+  width       Int?
+  height      Int?
+  alt         String?
+  checksum    String
+  createdById String?   @map("created_by")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamptz(3)
+
+  @@unique([id, tenantId])
+  @@index([tenantId, deletedAt, createdAt])
+  @@map("media")
+}
+
+/// Templates installed on a tenant (ADR-009, ADR-026). Tenant-owned (RLS).
+model TemplateInstallation {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  templateId  String   @map("template_id")
+  version     String
+  installedAt DateTime @default(now()) @map("installed_at") @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@unique([tenantId, templateId])
+  @@map("template_installations")
+}
+
 /// Snapshot of an entity definition after each change (ADR-020). Tenant-owned (RLS).
 model MetadataVersion {
   id        String   @id @default(uuid()) @db.Uuid

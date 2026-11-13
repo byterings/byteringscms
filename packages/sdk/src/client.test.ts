@@ -59,17 +59,15 @@ describe('PlatformClient', () => {
   });
 
   it('throws PlatformError with the API error code', async () => {
-    const fetchImpl = vi
-      .fn()
-      .mockResolvedValue(
-        reply(409, {
-          error: {
-            code: 'RECORD_VERSION_CONFLICT',
-            message: 'stale',
-            details: { currentVersion: 3 },
-          },
-        }),
-      );
+    const fetchImpl = vi.fn().mockResolvedValue(
+      reply(409, {
+        error: {
+          code: 'RECORD_VERSION_CONFLICT',
+          message: 'stale',
+          details: { currentVersion: 3 },
+        },
+      }),
+    );
     const client = createClient({ baseUrl: 'https://cms.test', fetch: fetchImpl });
     const error = await client
       .records('product')

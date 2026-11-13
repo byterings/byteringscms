@@ -24,6 +24,8 @@ export interface RecordQueryInput {
   sort?: string;
   search?: string;
   deleted?: boolean;
+  /** Additional trusted conditions (e.g. the public publish rule). */
+  extra?: Prisma.Sql[];
 }
 
 export interface BuiltRecordQuery {
@@ -285,6 +287,7 @@ export function buildRecordQuery(input: RecordQueryInput): BuiltRecordQuery {
     Prisma.sql`r.entity_id = ${input.entityId}::uuid`,
     input.deleted ? Prisma.sql`r.deleted_at IS NOT NULL` : Prisma.sql`r.deleted_at IS NULL`,
     ...buildFilters(input),
+    ...(input.extra ?? []),
   ];
   const search = buildSearch(input);
   if (search) conditions.push(search);

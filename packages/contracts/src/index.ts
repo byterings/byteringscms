@@ -10,4 +10,6 @@ export * from './fields';
 export * from './entities';
 export * from './records';
 export * from './config';
+export * from './media';
+export * from './templates';
 export * from './openapi';

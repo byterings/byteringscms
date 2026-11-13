@@ -47,6 +47,24 @@ export const envSchema = z.object({
   RATE_LIMIT_PER_MINUTE: z.coerce.number().int().min(10).max(100_000).default(600),
   /** Login and setup attempts per minute per IP. */
   AUTH_RATE_LIMIT_PER_MINUTE: z.coerce.number().int().min(1).max(10_000).default(10),
+  /** Object storage for media (ADR-023). */
+  STORAGE_DRIVER: z.enum(['local', 's3']).default('local'),
+  STORAGE_LOCAL_DIR: z.string().default('./storage'),
+  S3_BUCKET: z.string().optional(),
+  S3_REGION: z.string().default('auto'),
+  S3_ENDPOINT: z.url().optional(),
+  S3_ACCESS_KEY_ID: z.string().optional(),
+  S3_SECRET_ACCESS_KEY: z.string().optional(),
+  S3_FORCE_PATH_STYLE: booleanString.default(false),
+  /** Maximum upload size in bytes (default 10 MB). */
+  MEDIA_MAX_BYTES: z.coerce
+    .number()
+    .int()
+    .min(1024)
+    .max(1024 * 1024 * 1024)
+    .default(10 * 1024 * 1024),
+  /** Directory containing application templates (each with template.json). */
+  TEMPLATES_DIR: z.string().optional(),
   /** When set, first-run setup requires the header `x-setup-token` to match. */
   SETUP_TOKEN: z.string().min(16).optional(),
 });
@@ -65,7 +83,12 @@ export class EnvValidationError extends Error {
 }
 
 export function parseEnv(source: Record<string, string | undefined>): Env {
-  const result = envSchema.safeParse(source);
+  const result = envSchema
+    .refine((env) => env.STORAGE_DRIVER !== 's3' || !!env.S3_BUCKET, {
+      message: 'S3_BUCKET is required when STORAGE_DRIVER=s3',
+      path: ['S3_BUCKET'],
+    })
+    .safeParse(source);
   if (!result.success) {
     throw new EnvValidationError(
       result.error.issues.map((issue) => `${issue.path.join('.') || '(root)'}: ${issue.message}`),

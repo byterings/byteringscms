@@ -34,7 +34,9 @@ import {
   updateFieldRequestSchema,
   type FieldDefinition,
 } from './fields';
+import { mediaSchema, updateMediaRequestSchema } from './media';
 import { addMemberRequestSchema, memberSchema, updateMemberRequestSchema } from './members';
+import { installTemplateRequestSchema, templateInfoSchema } from './templates';
 import { pageMetaSchema } from './pagination';
 import { type Permission } from './permissions';
 import { createRecordRequestSchema, recordSchema, updateRecordRequestSchema } from './records';
@@ -570,6 +572,120 @@ export const API_OPERATIONS: OperationSpec[] = [
     auth: 'any',
     permission: 'records:write',
     status: 204,
+  },
+
+  // Media (ADR-023)
+  {
+    method: 'post',
+    path: '/media',
+    tag: 'Media',
+    summary: 'Upload a file (multipart/form-data: file, alt)',
+    auth: 'any',
+    permission: 'media:write',
+    response: data(mediaSchema),
+    status: 201,
+    contentType: 'application/json',
+  },
+  {
+    method: 'get',
+    path: '/media',
+    tag: 'Media',
+    summary: 'List media',
+    auth: 'any',
+    permission: 'media:read',
+    query: [
+      ...pageParams,
+      { name: 'kind', schema: { type: 'string', enum: ['image', 'video', 'audio', 'document'] } },
+      { name: 'search', schema: { type: 'string' } },
+    ],
+    response: page(mediaSchema),
+  },
+  {
+    method: 'get',
+    path: '/media/{id}',
+    tag: 'Media',
+    summary: 'Get media metadata',
+    auth: 'any',
+    permission: 'media:read',
+    response: data(mediaSchema),
+  },
+  {
+    method: 'get',
+    path: '/media/{id}/file',
+    tag: 'Media',
+    summary: 'Download the file',
+    auth: 'any',
+    permission: 'media:read',
+    contentType: 'application/octet-stream',
+  },
+  {
+    method: 'patch',
+    path: '/media/{id}',
+    tag: 'Media',
+    summary: 'Update alt text or file name',
+    auth: 'any',
+    permission: 'media:write',
+    body: updateMediaRequestSchema,
+    response: data(mediaSchema),
+  },
+  {
+    method: 'delete',
+    path: '/media/{id}',
+    tag: 'Media',
+    summary: 'Delete media',
+    auth: 'any',
+    permission: 'media:write',
+    status: 204,
+  },
+
+  // Templates (ADR-009)
+  {
+    method: 'get',
+    path: '/admin/templates',
+    tag: 'Templates',
+    summary: 'Available and installed templates',
+    auth: 'any',
+    permission: 'templates:manage',
+    response: data(z.array(templateInfoSchema)),
+  },
+  {
+    method: 'post',
+    path: '/admin/templates/{templateId}/install',
+    tag: 'Templates',
+    summary: 'Install a template',
+    auth: 'any',
+    permission: 'templates:manage',
+    body: installTemplateRequestSchema,
+    response: data(templateInfoSchema),
+    status: 201,
+  },
+
+  // Public content API (ADR-025)
+  {
+    method: 'get',
+    path: '/public/{tenantSlug}/entities/{entityKey}/records',
+    tag: 'Public',
+    summary: 'List published public records',
+    auth: 'public',
+    query: recordListParams.filter((p) => p.name !== 'deleted'),
+    response: page(recordSchema),
+  },
+  {
+    method: 'get',
+    path: '/public/{tenantSlug}/entities/{entityKey}/records/{id}',
+    tag: 'Public',
+    summary: 'Get a published public record',
+    auth: 'public',
+    query: [recordListParams[3]!, recordListParams[5]!],
+    response: data(recordSchema),
+  },
+  {
+    method: 'get',
+    path: '/public/{tenantSlug}/media/{id}/file',
+    tag: 'Public',
+    summary: 'Download a file referenced by published public content',
+    auth: 'public',
+    contentType: 'application/octet-stream',
   },
 ];
 
