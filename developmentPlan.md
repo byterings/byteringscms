@@ -1410,7 +1410,7 @@ is completed.
 
 ## Extensibility and CMS
 
--   [ ] Relationship engine
+-   [x] Relationship engine
 -   [ ] Media storage
 -   [ ] CMS template
 -   [ ] Template manifest

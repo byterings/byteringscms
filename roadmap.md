@@ -76,9 +76,9 @@ IDs: `R-000` documentation; `R-0xx` Phase 0; `R-1xx` Phase 1; … `R-9xx` Phase 
 
 | ID | Title | Description | Priority | Status |
 | -- | ----- | ----------- | -------- | ------ |
-| R-501 | Relationship engine | `record_links`, cardinalities, same-tenant target validation (ADR-022) | High | pending |
-| R-502 | Expansion | `expand` parameter with depth and size limits | High | pending |
-| R-503 | Relationship UI | Relation pickers and display in the Studio | Medium | pending |
+| R-501 | Relationship engine | `record_links`, cardinalities, same-tenant target validation (ADR-022) | High | done |
+| R-502 | Expansion | `expand` parameter with depth and size limits | High | done |
+| R-503 | Relationship UI | Relation pickers and display in the Studio | Medium | done |
 
 ## Phase 6 — API hardening and developer experience
 

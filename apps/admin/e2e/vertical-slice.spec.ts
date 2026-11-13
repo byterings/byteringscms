@@ -233,4 +233,53 @@ test.describe.serial('vertical slice', () => {
     }
     await api.dispose();
   });
+
+  test('Phase 5. link a record to another entity with the relation picker', async ({ page }) => {
+    const { api, csrf } = await signIn(OWNER_A.email);
+    const headers = { 'x-csrf-token': csrf };
+    const category = await api.post('/api/v1/admin/entities', {
+      headers,
+      data: {
+        key: 'category',
+        name: 'Category',
+        pluralName: 'Categories',
+        fields: [{ key: 'title', type: 'text', label: 'Title', required: true }],
+      },
+    });
+    const categoryEntity = (await category.json()).data;
+    for (const title of ['Hardware', 'Furniture']) {
+      await api.post('/api/v1/entities/category/records', { headers, data: { data: { title } } });
+    }
+    const field = await api.post(`/api/v1/admin/entities/${entityId}/fields`, {
+      headers,
+      data: {
+        key: 'category',
+        type: 'relation',
+        label: 'Category',
+        config: { targetEntityId: categoryEntity.id },
+      },
+    });
+    expect(field.status()).toBe(201);
+
+    await uiSignIn(page, OWNER_A.email);
+    await page.goto(`/content/product/${uiRecordId}`);
+    const picker = page.getByRole('combobox', { name: 'Category' });
+    await picker.click();
+    await picker.fill('Hard');
+    await page.getByRole('option', { name: 'Hardware' }).click();
+    await expect(page.getByRole('list', { name: 'Selected Category' })).toContainText('Hardware');
+    await page.getByRole('button', { name: 'Save changes' }).click();
+    await expect(page.getByText('Saved.')).toBeVisible();
+
+    const record = await (
+      await api.get(`/api/v1/entities/product/records/${uiRecordId}`, {
+        params: { expand: 'category' },
+      })
+    ).json();
+    expect(record.data.data.category).toMatchObject({ data: { title: 'Hardware' } });
+
+    await page.goto('/content/product');
+    await expect(page.getByRole('cell', { name: 'Hardware' })).toBeVisible();
+    await api.dispose();
+  });
 });

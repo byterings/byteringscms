@@ -53,6 +53,7 @@ export interface RecordListParams {
   sort?: string;
   search?: string;
   deleted?: boolean;
+  expand?: string;
 }
 
 export function useRecords(entityKey: string, params: RecordListParams) {
@@ -66,6 +67,7 @@ export function useRecords(entityKey: string, params: RecordListParams) {
           sort: params.sort,
           search: params.search,
           deleted: params.deleted ? 'true' : undefined,
+          expand: params.expand || undefined,
         },
       }),
     placeholderData: (previous) => previous,

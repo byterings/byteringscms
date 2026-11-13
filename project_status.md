@@ -2,10 +2,10 @@
 
 ## Current State
 
-Phases 0-3 complete: foundation, identity/tenancy/authorization,
-metadata engine, generic record engine and the Admin Studio vertical slice
-(Playwright e2e of developmentPlan §15 passes).
-Next: Phase 5 — relationships.
+Phases 0-5 complete: foundation, identity/tenancy/authorization, metadata
+engine, generic record engine, Admin Studio vertical slice (Playwright e2e of
+developmentPlan §15 passes) and relationships.
+Next: Phase 6 — API hardening and developer experience.
 
 Branches: `main` (stable), `dev` (active work).
 

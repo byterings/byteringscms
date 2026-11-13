@@ -1,6 +1,6 @@
 'use client';
 
-import { FIELD_TYPE_INFO, type RecordItem } from '@byteringscms/contracts';
+import { FIELD_TYPE_INFO, type EntityDefinition, type RecordItem } from '@byteringscms/contracts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ArrowDown, ArrowUp, Plus, RotateCcw, Trash2 } from 'lucide-react';
 import Link from 'next/link';
@@ -21,10 +21,27 @@ import {
 } from '@/components/ui';
 import { api } from '@/lib/api-client';
 import { errorMessage } from '@/lib/errors';
-import { keys, useEntityByKey, useRecords } from '@/lib/queries';
+import { keys, useEntities, useEntityByKey, useRecords } from '@/lib/queries';
+import { recordTitle } from '@/components/relation-picker';
 import { useSession } from '@/lib/session';
 
 const PAGE_SIZE = 20;
+
+/** Titles of expanded relation values for table cells. */
+function relationLabel(
+  value: unknown,
+  entities: EntityDefinition[] | undefined,
+  config: Record<string, unknown>,
+): string {
+  if (value === null || value === undefined) return '—';
+  const target = entities?.find((e) => e.id === config.targetEntityId);
+  const items = (Array.isArray(value) ? value : [value]) as RecordItem[];
+  return (
+    items
+      .map((item) => (typeof item === 'object' ? recordTitle(target, item) : String(item)))
+      .join(', ') || '—'
+  );
+}
 
 export default function RecordListPage() {
   const { entityKey } = useParams<{ entityKey: string }>();
@@ -37,13 +54,20 @@ export default function RecordListPage() {
   const [search, setSearch] = useState('');
   const [trash, setTrash] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
+  const relationKeys = (entity.data?.fields ?? [])
+    .filter((f) => f.type === 'relation')
+    .slice(0, 5)
+    .map((f) => f.key)
+    .join(',');
   const records = useRecords(entityKey, {
     page,
     pageSize: PAGE_SIZE,
     sort,
     search: search || undefined,
     deleted: trash,
+    expand: relationKeys,
   });
+  const allEntities = useEntities();
   const isAdmin =
     session?.activeTenant?.role === 'admin' || session?.activeTenant?.role === 'owner';
   const writable = can('records:write') && entity.data?.status === 'active';
@@ -186,7 +210,9 @@ export default function RecordListPage() {
                 >
                   {columns.map((field, index) => (
                     <Td key={field.id} className={index === 0 ? 'font-medium' : undefined}>
-                      {formatValue(field.type, record.data[field.key], field.config)}
+                      {field.type === 'relation'
+                        ? relationLabel(record.data[field.key], allEntities.data, field.config)
+                        : formatValue(field.type, record.data[field.key], field.config)}
                     </Td>
                   ))}
                   <Td className="whitespace-nowrap text-slate-500">

@@ -193,6 +193,7 @@ model Field {
 
   entity       Entity              @relation(fields: [entityId, tenantId], references: [id, tenantId], onDelete: Cascade)
   uniqueValues RecordUniqueValue[]
+  links        RecordLink[]
 
   @@unique([entityId, key])
   @@index([tenantId])
@@ -216,6 +217,8 @@ model Record {
 
   entity       Entity              @relation(fields: [entityId, tenantId], references: [id, tenantId], onDelete: Cascade)
   uniqueValues RecordUniqueValue[]
+  linksOut     RecordLink[]        @relation("LinkSource")
+  linksIn      RecordLink[]        @relation("LinkTarget")
 
   @@unique([id, tenantId])
   @@index([tenantId, entityId, deletedAt, createdAt])
@@ -235,6 +238,27 @@ model RecordUniqueValue {
   @@id([fieldId, value])
   @@index([recordId])
   @@map("record_unique_values")
+}
+
+/// Relation links between records (ADR-022). The record JSONB mirrors the
+/// target id(s) for simple reads; this table provides integrity and reverse
+/// lookups. Composite keys keep both ends inside one tenant. Tenant-owned (RLS).
+model RecordLink {
+  id             String @id @default(uuid()) @db.Uuid
+  tenantId       String @map("tenant_id") @db.Uuid
+  fieldId        String @map("field_id") @db.Uuid
+  sourceRecordId String @map("source_record_id") @db.Uuid
+  targetRecordId String @map("target_record_id") @db.Uuid
+  position       Int    @default(0)
+
+  field  Field  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  source Record @relation("LinkSource", fields: [sourceRecordId, tenantId], references: [id, tenantId], onDelete: Cascade)
+  target Record @relation("LinkTarget", fields: [targetRecordId, tenantId], references: [id, tenantId], onDelete: Cascade)
+
+  @@unique([fieldId, sourceRecordId, targetRecordId])
+  @@index([targetRecordId])
+  @@index([tenantId])
+  @@map("record_links")
 }
 
 /// Snapshot of an entity definition after each change (ADR-020). Tenant-owned (RLS).

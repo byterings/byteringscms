@@ -242,10 +242,13 @@ export class RecordsService {
     this.assertAdmin(ctx);
     return this.db.run(ctx.tenantId, async (tx) => {
       const entity = await this.loadEntity(tx, ctx, entityKey);
-      const result = await tx.record.deleteMany({
+      const row = await tx.record.findFirst({
         where: { id, tenantId: ctx.tenantId, entityId: entity.id, deletedAt: { not: null } },
+        select: { id: true },
       });
-      if (result.count === 0) throw AppError.notFound('Deleted record');
+      if (!row) throw AppError.notFound('Deleted record');
+      await this.relations.detachTarget(tx, ctx, id);
+      await tx.record.delete({ where: { id } });
       await this.audit.record(tx, ctx, {
         action: 'record.purged',
         targetType: entity.key,

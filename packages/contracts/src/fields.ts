@@ -379,6 +379,9 @@ function decimalSchema(config: FieldConfig<'decimal'>) {
   });
 }
 
+/** Record/media reference: a UUID, normalized to lower case. */
+const referenceId = z.uuid().transform((v) => v.toLowerCase());
+
 function isValidDate(text: string): boolean {
   const date = new Date(`${text}T00:00:00Z`);
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === text;
@@ -442,17 +445,17 @@ export function nonNullValueSchema(field: Pick<ValueFieldShape, 'type' | 'config
     }
     case 'relation': {
       const c = fieldConfigSchemas.relation.parse(field.config);
-      if (c.cardinality === 'one') return z.uuid();
+      if (c.cardinality === 'one') return referenceId;
       return z
-        .array(z.uuid())
+        .array(referenceId)
         .max(c.maxItems)
         .refine((arr) => new Set(arr).size === arr.length, 'References must be unique');
     }
     case 'media': {
       const c = fieldConfigSchemas.media.parse(field.config);
-      if (!c.multiple) return z.uuid();
+      if (!c.multiple) return referenceId;
       return z
-        .array(z.uuid())
+        .array(referenceId)
         .max(c.maxItems)
         .refine((arr) => new Set(arr).size === arr.length, 'References must be unique');
     }

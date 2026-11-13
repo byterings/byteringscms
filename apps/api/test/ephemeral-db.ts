@@ -13,7 +13,16 @@ export async function createEphemeralDatabase(): Promise<{
   drop: () => Promise<void>;
 }> {
   const name = `byterings_t_${randomBytes(5).toString('hex')}`;
-  await fixtureDb().$executeRawUnsafe(`CREATE DATABASE ${name}`);
+  // CREATE DATABASE can fail transiently (e.g. template1 briefly in use).
+  for (let attempt = 1; ; attempt++) {
+    try {
+      await fixtureDb().$executeRawUnsafe(`CREATE DATABASE ${name}`);
+      break;
+    } catch (error) {
+      if (attempt >= 3) throw error;
+      await new Promise((resolve) => setTimeout(resolve, 500 * attempt));
+    }
+  }
   const url = new URL(TEST_DATABASE_URL);
   url.pathname = `/${name}`;
   migrateDeploy(url.toString());
