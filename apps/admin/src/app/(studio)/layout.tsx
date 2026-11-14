@@ -67,11 +67,7 @@ export default function StudioLayout({ children }: { children: ReactNode }) {
   }, [loading, session, router]);
 
   if (loading || !session) {
-    return (
-      <div className="p-8">
-        <Loading />
-      </div>
-    );
+    return <Loading fullScreen />;
   }
 
   const contentEntities = (entities.data ?? []).filter((e) => e.status === 'active');

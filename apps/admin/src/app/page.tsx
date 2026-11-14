@@ -20,8 +20,8 @@ export default function HomePage() {
   }, [setup.isLoading, setup.data, loading, session, router]);
 
   return (
-    <main className="mx-auto max-w-md p-8">
-      <Loading />
+    <main>
+      <Loading fullScreen />
     </main>
   );
 }

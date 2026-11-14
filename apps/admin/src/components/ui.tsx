@@ -220,9 +220,26 @@ export function Spinner({ className }: { className?: string }) {
   );
 }
 
-export function Loading({ label = 'Loading…' }: { label?: string }) {
+/**
+ * Centered loading indicator. `fullScreen` centers it in the viewport
+ * (page-level loads); otherwise it is centered in the content area.
+ */
+export function Loading({
+  label = 'Loading…',
+  fullScreen = false,
+}: {
+  label?: string;
+  fullScreen?: boolean;
+}) {
   return (
-    <div className="flex items-center gap-2 py-8 text-sm text-slate-500" role="status">
+    <div
+      className={clsx(
+        'flex w-full items-center justify-center gap-2 text-sm text-slate-500',
+        fullScreen ? 'min-h-screen' : 'min-h-48 py-12',
+      )}
+      role="status"
+      aria-live="polite"
+    >
       <Spinner /> {label}
     </div>
   );

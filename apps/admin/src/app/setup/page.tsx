@@ -59,7 +59,7 @@ export default function SetupPage() {
     }
   });
 
-  if (status.isLoading) return <Loading />;
+  if (status.isLoading) return <Loading fullScreen />;
   const { errors, isSubmitting } = form.formState;
   const tenantName = form.register('tenantName');
 
