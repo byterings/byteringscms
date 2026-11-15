@@ -1,6 +1,6 @@
 'use client';
 
-import type { EntityDefinition, PageMeta, RecordItem, SetupStatus } from '@byteringscms/contracts';
+import type { EntityDefinition, PageMeta, RecordItem, SetupStatus } from '@bytecontent/contracts';
 import { useQuery } from '@tanstack/react-query';
 import { api } from './api-client';
 

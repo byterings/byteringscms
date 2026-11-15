@@ -1,6 +1,6 @@
 # ADR-016: Licensing: AGPL-3.0
 
-- **Status:** Accepted
+- **Status:** Superseded by [ADR-028](028-licensing-mit.md)
 - **Date:** 2026-11-13
 
 ## Context

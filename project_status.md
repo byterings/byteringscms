@@ -63,7 +63,7 @@ Database migrations (in order): `identity_tenancy`, `metadata_engine`,
 - The Admin Studio reaches the API through a runtime proxy route
   (`API_URL` read at runtime, not baked into the build).
 - Prisma blocks AI agents from `migrate reset`/`migrate dev`; migrations are
-  generated with `pnpm --filter @byteringscms/api db:new-migration <name>`
+  generated with `pnpm --filter @bytecontent/api db:new-migration <name>`
   (`prisma migrate diff` + shadow database) and tests never wipe databases.
 - Backups/restores must use a role that bypasses RLS; restores keep owners.
 - `tar` is implemented in `scripts/lib/tar.mjs` (no host `tar` dependency).
@@ -77,7 +77,8 @@ Database migrations (in order): `identity_tenancy`, `metadata_engine`,
 - Rate limiting state is in memory (single API instance).
 - No MFA/SSO, billing, search engine or GraphQL (V1 non-goals).
 - SVG uploads are rejected (would need sanitizing).
-- Product name and npm scope are placeholders (`byteringscms`, `byterings` CLI).
+- Database and role names keep the original `byterings` prefix
+  (`byterings_dev`, role `byterings`) so existing installations keep working.
 
 ---
 

@@ -1,8 +1,8 @@
 {
-  "name": "@byteringscms/admin",
+  "name": "@bytecontent/admin",
   "version": "0.1.0",
   "private": true,
-  "license": "AGPL-3.0-only",
+  "license": "MIT",
   "scripts": {
     "build": "next build",
     "dev": "next dev --port 3000",
@@ -13,7 +13,7 @@
     "test:e2e": "node e2e/run.mjs"
   },
   "dependencies": {
-    "@byteringscms/contracts": "workspace:*",
+    "@bytecontent/contracts": "workspace:*",
     "@hookform/resolvers": "^5.9.2",
     "@tanstack/react-query": "^5.107.1",
     "clsx": "^2.1.1",

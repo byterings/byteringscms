@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type SetupRequest } from '@byteringscms/contracts';
+import { type SetupRequest } from '@bytecontent/contracts';
 import { Prisma } from '@prisma/client';
 import { AuditService } from '../audit/audit.service';
 import { PasswordService } from '../auth/password.service';

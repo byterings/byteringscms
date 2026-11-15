@@ -1,8 +1,8 @@
 {
-  "name": "@byteringscms/api",
+  "name": "@bytecontent/api",
   "version": "0.1.0",
   "private": true,
-  "license": "AGPL-3.0-only",
+  "license": "MIT",
   "scripts": {
     "build": "prisma generate && nest build",
     "dev": "prisma generate && nest start --watch",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1168.0",
-    "@byteringscms/contracts": "workspace:*",
+    "@bytecontent/contracts": "workspace:*",
     "@nestjs/common": "^11",
     "@nestjs/core": "^11",
     "@nestjs/platform-express": "^11",
@@ -42,8 +42,8 @@
     "zod": "^4"
   },
   "devDependencies": {
-    "@byteringscms/cli": "workspace:*",
-    "@byteringscms/sdk": "workspace:*",
+    "@bytecontent/cli": "workspace:*",
+    "@bytecontent/sdk": "workspace:*",
     "@nestjs/cli": "^11",
     "@nestjs/testing": "^11",
     "@swc/cli": "^0.7",

@@ -1,4 +1,8 @@
-# Multi-Tenant Metadata-Driven Application Platform
+<p align="center"><img src="docs/brand/logo.svg" alt="ByteContent" width="280"></p>
+
+# ByteContent
+
+**The open-source, multi-tenant headless CMS by ByteRings.**
 
 > A self-hostable, SaaS-ready application platform with a
 > metadata-driven core, a headless API, and an extensible
@@ -6,7 +10,7 @@
 
 **Project status:** See `project_status.md` for the current
 implementation state.\
-**License:** GNU AGPL-3.0 (see `LICENSE`).\
+**License:** MIT (see `LICENSE`).\
 **Initial application:** Headless CMS.\
 **Primary deployment target:** Self-hosted first, SaaS-ready from day
 one.\
@@ -853,7 +857,7 @@ non-superuser roles.
 ### SDK and CLI
 
 ``` ts
-import { createClient } from '@byteringscms/sdk';
+import { createClient } from '@bytecontent/sdk';
 
 const client = createClient({ baseUrl: 'http://localhost:4000', apiKey: process.env.API_KEY });
 const products = await client.records<Product>('product').list({
@@ -864,15 +868,15 @@ const products = await client.records<Product>('product').list({
 ```
 
 ``` bash
-export BYTERINGS_URL=http://localhost:4000
-export BYTERINGS_API_KEY=bcms_...            # key with metadata scopes
+export BYTECONTENT_URL=http://localhost:4000
+export BYTECONTENT_API_KEY=bcms_...            # key with metadata scopes
 
-byterings entities:list
-byterings export                  # writes ./entities/<key>.json
-byterings schema:diff             # read-only plan
-byterings schema:push             # plan, confirm, apply atomically
-byterings schema:push --prune --allow-destructive   # also delete undeclared items
-byterings types --out src/platform-types.ts
+bytecontent entities:list
+bytecontent export                  # writes ./entities/<key>.json
+bytecontent schema:diff             # read-only plan
+bytecontent schema:push             # plan, confirm, apply atomically
+bytecontent schema:push --prune --allow-destructive   # also delete undeclared items
+bytecontent types --out src/platform-types.ts
 ```
 
 Run the CLI from the workspace with `node packages/cli/dist/index.js`
@@ -882,5 +886,7 @@ after `pnpm build`.
 
 ## 18. License
 
-Licensed under the GNU Affero General Public License v3.0. See
-`LICENSE` and `docs/decisions/016-licensing-agpl.md`.
+Licensed under the MIT License, copyright ByteRings. See `LICENSE` and
+`docs/decisions/028-licensing-mit.md`. The names "ByteContent" and
+"ByteRings" and their logos are trademarks of ByteRings and are not
+covered by the license.

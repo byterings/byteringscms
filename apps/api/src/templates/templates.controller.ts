@@ -4,7 +4,7 @@ import {
   upgradeTemplateRequestSchema,
   type InstallTemplateRequest,
   type UpgradeTemplateRequest,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { z } from 'zod';
 import { RequirePermissions } from '../auth/auth.decorators';
 import { Ctx, requireTenant, type RequestContext } from '../common/request-context';

@@ -1,6 +1,6 @@
 'use client';
 
-import type { FieldType } from '@byteringscms/contracts';
+import type { FieldType } from '@bytecontent/contracts';
 import { Checkbox, Input, Select, Textarea } from './ui';
 import { RelationPicker } from './relation-picker';
 import { MediaPicker } from './media-picker';

@@ -5,7 +5,7 @@ import {
   type ApiKeyInfo,
   type ApiKeyScope,
   type CreatedApiKey,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';

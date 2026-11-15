@@ -2,7 +2,7 @@ import {
   fieldConfigSchemas,
   type EntityDefinition,
   type FieldDefinition,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 
 function pascal(key: string): string {
   return key
@@ -50,7 +50,7 @@ function tsType(field: FieldDefinition): string {
 export function generateTypes(entities: EntityDefinition[]): string {
   const lines = [
     '// Generated from platform metadata. Do not edit by hand.',
-    '// Regenerate with: byterings types',
+    '// Regenerate with: bytecontent types',
     '',
   ];
   for (const entity of [...entities].sort((a, b) => a.key.localeCompare(b.key))) {

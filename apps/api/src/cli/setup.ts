@@ -2,7 +2,7 @@
  * First-run installation setup from the command line (alternative to the
  * Admin Studio setup screen).
  *
- *   pnpm --filter @byteringscms/api cli:setup -- \
+ *   pnpm --filter @bytecontent/api cli:setup -- \
  *     --tenant-name "Acme" --tenant-slug acme \
  *     --name "Ada Admin" --email ada@example.com
  *
@@ -13,7 +13,7 @@ import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { parseArgs } from 'node:util';
 import { NestFactory } from '@nestjs/core';
-import { setupRequestSchema } from '@byteringscms/contracts';
+import { setupRequestSchema } from '@bytecontent/contracts';
 import { AppModule } from '../app.module';
 import { parseEnv } from '../config/env';
 import { SetupService } from '../tenancy/setup.service';

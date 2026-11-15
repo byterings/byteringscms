@@ -5,7 +5,7 @@ import {
   updateTenantStatusRequestSchema,
   type CreateTenantRequest,
   type UpdateTenantRequest,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { type z } from 'zod';
 import { RequirePermissions, RequirePlatformAdmin } from '../auth/auth.decorators';
 import { Ctx, requireTenant, type RequestContext } from '../common/request-context';

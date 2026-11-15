@@ -4,7 +4,7 @@ import {
   type ApiKeyScope,
   type CreateApiKeyRequest,
   type CreatedApiKey,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { type ApiKey } from '@prisma/client';
 import { AuditService } from '../audit/audit.service';
 import { AppError } from '../common/app-error';

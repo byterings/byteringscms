@@ -1,8 +1,8 @@
 {
-  "name": "@byteringscms/sdk",
+  "name": "@bytecontent/sdk",
   "version": "0.1.0",
   "private": true,
-  "license": "AGPL-3.0-only",
+  "license": "MIT",
   "description": "TypeScript client for the platform REST API.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@byteringscms/contracts": "workspace:*"
+    "@bytecontent/contracts": "workspace:*"
   },
   "devDependencies": {
     "vitest": "^3"

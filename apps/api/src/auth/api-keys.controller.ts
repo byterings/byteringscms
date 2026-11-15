@@ -8,7 +8,7 @@ import {
   ParseUUIDPipe,
   Post,
 } from '@nestjs/common';
-import { createApiKeyRequestSchema, type CreateApiKeyRequest } from '@byteringscms/contracts';
+import { createApiKeyRequestSchema, type CreateApiKeyRequest } from '@bytecontent/contracts';
 import { Ctx, requireTenant, type RequestContext } from '../common/request-context';
 import { ZodValidationPipe } from '../common/zod-validation.pipe';
 import { RequirePermissions, RequireUser } from './auth.decorators';

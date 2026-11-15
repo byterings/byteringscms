@@ -10,7 +10,7 @@ import {
   type FieldDefinition,
   type FieldType,
   type Role,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';

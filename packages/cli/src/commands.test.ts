@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { CliError, formatPlan, loadSchema } from './commands';
 
 async function project(files: Record<string, unknown>): Promise<string> {
-  const dir = await mkdtemp(join(tmpdir(), 'byterings-cli-'));
+  const dir = await mkdtemp(join(tmpdir(), 'bytecontent-cli-'));
   await mkdir(join(dir, 'entities'));
   for (const [name, content] of Object.entries(files)) {
     await writeFile(
@@ -39,7 +39,7 @@ describe('loadSchema', () => {
 
   it('explains a missing schema directory', async () => {
     await expect(loadSchema(join(tmpdir(), 'does-not-exist-123'))).rejects.toThrow(
-      /byterings export/,
+      /bytecontent export/,
     );
   });
 });

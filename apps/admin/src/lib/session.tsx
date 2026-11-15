@@ -1,6 +1,6 @@
 'use client';
 
-import type { LoginRequest, Permission, Session } from '@byteringscms/contracts';
+import type { LoginRequest, Permission, Session } from '@bytecontent/contracts';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { createContext, useCallback, useContext, useMemo, type ReactNode } from 'react';
 import { api, ApiRequestError } from './api-client';

@@ -9,7 +9,7 @@ A multi-tenant, metadata-driven application platform. Tenants define
 entities, fields, relationships and permissions as metadata; the platform
 provides storage, validation, authorization, REST APIs and a generated
 Admin Studio at runtime. The first application is a headless CMS template.
-Self-hostable first, SaaS-ready (ADR-001, ADR-002). Licensed AGPL-3.0.
+Self-hostable first, SaaS-ready (ADR-001, ADR-002). Licensed MIT (ADR-028).
 
 ## Architecture
 

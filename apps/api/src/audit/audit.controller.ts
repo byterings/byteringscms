@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { auditQuerySchema, pageMeta, type AuditQuery } from '@byteringscms/contracts';
+import { auditQuerySchema, pageMeta, type AuditQuery } from '@bytecontent/contracts';
 import { RequirePermissions } from '../auth/auth.decorators';
 import { ZodValidationPipe } from '../common/zod-validation.pipe';
 import { Ctx, requireTenant, type RequestContext } from '../common/request-context';

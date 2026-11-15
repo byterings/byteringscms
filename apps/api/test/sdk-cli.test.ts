@@ -6,8 +6,8 @@ import { mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { type AddressInfo } from 'node:net';
-import { diffSchema, exportSchema, pushSchema, writeTypes } from '@byteringscms/cli';
-import { createClient, PlatformError, type PlatformClient } from '@byteringscms/sdk';
+import { diffSchema, exportSchema, pushSchema, writeTypes } from '@bytecontent/cli';
+import { createClient, PlatformError, type PlatformClient } from '@bytecontent/sdk';
 import { type NestExpressApplication } from '@nestjs/platform-express';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { createApiKey, login, seedTenant } from './auth-helpers';
@@ -37,7 +37,7 @@ describe('SDK and CLI', () => {
       'records:write',
     ]);
     client = createClient({ baseUrl: `http://127.0.0.1:${port}`, apiKey: key.key });
-    dir = await mkdtemp(join(tmpdir(), 'byterings-project-'));
+    dir = await mkdtemp(join(tmpdir(), 'bytecontent-project-'));
   });
 
   afterAll(async () => {

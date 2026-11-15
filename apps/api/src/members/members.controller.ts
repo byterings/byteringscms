@@ -14,7 +14,7 @@ import {
   updateMemberRequestSchema,
   type AddMemberRequest,
   type UpdateMemberRequest,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { RequirePermissions, RequireUser } from '../auth/auth.decorators';
 import { Ctx, requireTenant, type RequestContext } from '../common/request-context';
 import { ZodValidationPipe } from '../common/zod-validation.pipe';

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { fieldConfigSchemas, type RecordItem } from '@byteringscms/contracts';
+import { fieldConfigSchemas, type RecordItem } from '@bytecontent/contracts';
 import { type Field, type Prisma } from '@prisma/client';
 import { AppError } from '../common/app-error';
 import { type TenantContext } from '../common/request-context';

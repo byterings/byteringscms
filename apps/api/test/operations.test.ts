@@ -25,7 +25,7 @@ describe('operations', () => {
       TENANCY_MODE: 'multi',
       TENANT_MAX_RECORDS: '2',
       TENANT_MAX_MEDIA_BYTES: String(PNG.length * 2),
-      STORAGE_LOCAL_DIR: await mkdtemp(join(tmpdir(), 'byterings-media-')),
+      STORAGE_LOCAL_DIR: await mkdtemp(join(tmpdir(), 'bytecontent-media-')),
       AUDIT_RETENTION_DAYS: '30',
       TRASH_RETENTION_DAYS: '7',
     });

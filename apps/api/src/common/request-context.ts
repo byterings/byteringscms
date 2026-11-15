@@ -1,5 +1,5 @@
 import { createParamDecorator, type ExecutionContext } from '@nestjs/common';
-import { type ApiKeyScope, type Permission, type Role } from '@byteringscms/contracts';
+import { type ApiKeyScope, type Permission, type Role } from '@bytecontent/contracts';
 import { type Request } from 'express';
 import { AppError } from './app-error';
 

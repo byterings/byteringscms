@@ -8,7 +8,7 @@ import {
   type MetadataVersion,
   type UpdateEntityRequest,
   type UpdateFieldRequest,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { Prisma } from '@prisma/client';
 import { AuditService } from '../audit/audit.service';
 import { AppError } from '../common/app-error';

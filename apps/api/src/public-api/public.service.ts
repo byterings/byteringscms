@@ -5,7 +5,7 @@ import {
   type FieldType,
   type RecordItem,
   type RecordListQuery,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { type Field, Prisma } from '@prisma/client';
 import { AppError } from '../common/app-error';
 import { PrismaService } from '../database/prisma.service';

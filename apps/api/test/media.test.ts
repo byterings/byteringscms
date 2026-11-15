@@ -30,7 +30,7 @@ describe('file sniffing', () => {
   });
 
   it('keeps local storage inside its root', async () => {
-    const driver = new LocalStorageDriver(await mkdtemp(join(tmpdir(), 'byterings-storage-')));
+    const driver = new LocalStorageDriver(await mkdtemp(join(tmpdir(), 'bytecontent-storage-')));
     await expect(driver.put('../escape.txt', Buffer.from('x'), 'text/plain')).rejects.toThrow(
       /Invalid storage key/,
     );
@@ -53,7 +53,7 @@ describe('media library', () => {
   beforeAll(async () => {
     app = await createTestApp({
       TENANCY_MODE: 'multi',
-      STORAGE_LOCAL_DIR: await mkdtemp(join(tmpdir(), 'byterings-media-')),
+      STORAGE_LOCAL_DIR: await mkdtemp(join(tmpdir(), 'bytecontent-media-')),
       MEDIA_MAX_BYTES: '4096',
     });
     const seeded = await seedTenant();

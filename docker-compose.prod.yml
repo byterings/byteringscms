@@ -5,7 +5,7 @@
 #
 # Caddy terminates HTTPS (automatic certificates for $DOMAIN) and is the only
 # service exposed to the network. The API and database stay internal.
-name: byteringscms
+name: bytecontent
 
 services:
   postgres:

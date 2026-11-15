@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { type Permission } from '@byteringscms/contracts';
+import { type Permission } from '@bytecontent/contracts';
 
 export const PUBLIC_KEY = 'auth:public';
 export const PERMISSIONS_KEY = 'auth:permissions';

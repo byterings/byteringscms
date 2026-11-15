@@ -5,7 +5,7 @@ import {
   type TemplateUpgradeRecord,
   type UpgradeItem,
   type UpgradePlan,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { type Prisma } from '@prisma/client';
 import { AuditService } from '../audit/audit.service';
 import { AppError } from '../common/app-error';

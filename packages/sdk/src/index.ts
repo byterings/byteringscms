@@ -7,4 +7,4 @@ export type {
   FieldDefinition,
   PageMeta,
   RecordItem,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';

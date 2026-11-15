@@ -20,7 +20,7 @@ import {
   updateMediaRequestSchema,
   type MediaListQuery,
   type UpdateMediaRequest,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { type Response } from 'express';
 import { RequirePermissions } from '../auth/auth.decorators';
 import { Ctx, requireTenant, type RequestContext } from '../common/request-context';

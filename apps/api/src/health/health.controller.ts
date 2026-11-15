@@ -1,5 +1,5 @@
 import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
-import { type HealthResponse } from '@byteringscms/contracts';
+import { type HealthResponse } from '@bytecontent/contracts';
 import { type Response } from 'express';
 import { Public } from '../auth/auth.decorators';
 import { PrismaService } from '../database/prisma.service';

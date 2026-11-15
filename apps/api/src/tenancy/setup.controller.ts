@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { setupRequestSchema, type SetupRequest } from '@byteringscms/contracts';
+import { setupRequestSchema, type SetupRequest } from '@bytecontent/contracts';
 import { type Request, type Response } from 'express';
 import { Public } from '../auth/auth.decorators';
 import { AuthService } from '../auth/auth.service';

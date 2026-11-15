@@ -9,7 +9,7 @@ import type {
   RecordItem,
   Tenant,
   UpdateEntityRequest,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 
 export interface ClientOptions {
   /** API origin, e.g. https://cms.example.com (the /api/v1 prefix is added). */

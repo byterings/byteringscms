@@ -2,7 +2,7 @@ import {
   type EntityDefinition,
   type FieldDefinition,
   type FieldType,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { type Entity, type Field } from '@prisma/client';
 
 export type EntityWithFields = Entity & { fields: Field[] };

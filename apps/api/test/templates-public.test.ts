@@ -25,7 +25,7 @@ describe('CMS template and public API', () => {
   beforeAll(async () => {
     app = await createTestApp({
       TENANCY_MODE: 'multi',
-      STORAGE_LOCAL_DIR: await mkdtemp(join(tmpdir(), 'byterings-media-')),
+      STORAGE_LOCAL_DIR: await mkdtemp(join(tmpdir(), 'bytecontent-media-')),
     });
     server = app.getHttpServer();
     const seeded = await seedTenant();

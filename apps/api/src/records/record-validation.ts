@@ -1,9 +1,4 @@
-import {
-  type FieldType,
-  roleAtLeast,
-  type Role,
-  validateFieldValue,
-} from '@byteringscms/contracts';
+import { type FieldType, roleAtLeast, type Role, validateFieldValue } from '@bytecontent/contracts';
 import { type Field } from '@prisma/client';
 import { HttpStatus } from '@nestjs/common';
 import { AppError } from '../common/app-error';

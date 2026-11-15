@@ -1,6 +1,6 @@
 'use client';
 
-import type { MediaItem } from '@byteringscms/contracts';
+import type { MediaItem } from '@bytecontent/contracts';
 import { FileAudio, FileText, FileVideo } from 'lucide-react';
 import clsx from 'clsx';
 

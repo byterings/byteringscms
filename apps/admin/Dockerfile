@@ -1,5 +1,5 @@
 # Admin Studio image. Build from the repository root:
-#   docker build -f apps/admin/Dockerfile -t byteringscms-admin .
+#   docker build -f apps/admin/Dockerfile -t bytecontent-admin .
 FROM node:24-bookworm-slim AS build
 RUN npm install -g pnpm@10.34.9
 WORKDIR /repo
@@ -7,7 +7,7 @@ COPY . .
 RUN pnpm install --frozen-lockfile
 ENV NEXT_OUTPUT=standalone \
     NEXT_TELEMETRY_DISABLED=1
-RUN pnpm turbo run build --filter=@byteringscms/admin...
+RUN pnpm turbo run build --filter=@bytecontent/admin...
 
 FROM node:24-bookworm-slim AS runtime
 ENV NODE_ENV=production \

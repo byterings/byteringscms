@@ -1,5 +1,5 @@
 import { Controller, Get, Header } from '@nestjs/common';
-import { buildOpenApiDocument, buildTenantOpenApiDocument } from '@byteringscms/contracts';
+import { buildOpenApiDocument, buildTenantOpenApiDocument } from '@bytecontent/contracts';
 import { Public, RequirePermissions } from '../auth/auth.decorators';
 import { Ctx, requireTenant, type RequestContext } from '../common/request-context';
 import { MetadataService } from '../metadata/metadata.service';

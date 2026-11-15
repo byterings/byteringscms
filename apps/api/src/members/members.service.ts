@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type AddMemberRequest, type Member, type Role } from '@byteringscms/contracts';
+import { type AddMemberRequest, type Member, type Role } from '@bytecontent/contracts';
 import { type MembershipRole } from '@prisma/client';
 import { AuditService } from '../audit/audit.service';
 import { PasswordService } from '../auth/password.service';

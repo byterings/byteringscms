@@ -6,7 +6,7 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common';
-import { type ApiError } from '@byteringscms/contracts';
+import { type ApiError } from '@bytecontent/contracts';
 import { Prisma } from '@prisma/client';
 import { type Response } from 'express';
 import { ZodError } from 'zod';

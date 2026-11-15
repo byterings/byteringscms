@@ -68,7 +68,7 @@ describe('template upgrades', () => {
       .send(body as object);
 
   beforeAll(async () => {
-    dir = await mkdtemp(join(tmpdir(), 'byterings-templates-'));
+    dir = await mkdtemp(join(tmpdir(), 'bytecontent-templates-'));
     await write(v1);
     app = await createTestApp({ TENANCY_MODE: 'multi', TEMPLATES_DIR: dir });
     owner = await login(app.getHttpServer(), (await seedTenant()).owner);

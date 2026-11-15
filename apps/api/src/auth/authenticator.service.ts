@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { type ApiKeyScope, effectiveRoleForScopes } from '@byteringscms/contracts';
+import { type ApiKeyScope, effectiveRoleForScopes } from '@bytecontent/contracts';
 import { type Request } from 'express';
 import { AppError } from '../common/app-error';
 import { anonymousContext, type RequestContext } from '../common/request-context';

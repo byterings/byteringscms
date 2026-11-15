@@ -2,7 +2,7 @@
  * Contract tests (developmentPlan §16.4): the published OpenAPI document and
  * the routes the API actually serves must match exactly.
  */
-import { API_OPERATIONS } from '@byteringscms/contracts';
+import { API_OPERATIONS } from '@bytecontent/contracts';
 import { type NestExpressApplication } from '@nestjs/platform-express';
 import request from 'supertest';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';

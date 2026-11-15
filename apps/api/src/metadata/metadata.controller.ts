@@ -22,7 +22,7 @@ import {
   type ReorderFieldsRequest,
   type UpdateEntityRequest,
   type UpdateFieldRequest,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { RequirePermissions } from '../auth/auth.decorators';
 import { Ctx, requireTenant, type RequestContext } from '../common/request-context';
 import { ZodValidationPipe } from '../common/zod-validation.pipe';

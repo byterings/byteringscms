@@ -1,6 +1,6 @@
 'use client';
 
-import type { MediaItem, MediaKind, PageMeta } from '@byteringscms/contracts';
+import type { MediaItem, MediaKind, PageMeta } from '@bytecontent/contracts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from './api-client';
 

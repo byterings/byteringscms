@@ -3,7 +3,7 @@ import {
   parseFieldConfig,
   validateFieldValue,
   type FieldType,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { type Prisma } from '@prisma/client';
 import { AppError } from '../common/app-error';
 import { type Tx } from '../database/tenant-db.service';

@@ -1,6 +1,6 @@
 'use client';
 
-import type { MediaItem, MediaKind } from '@byteringscms/contracts';
+import type { MediaItem, MediaKind } from '@bytecontent/contracts';
 import { Upload, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { errorMessage } from '@/lib/errors';

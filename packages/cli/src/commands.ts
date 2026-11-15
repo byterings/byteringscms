@@ -9,8 +9,8 @@ import {
   configEntitySchema,
   type ConfigDocument,
   type ConfigPlan,
-} from '@byteringscms/contracts';
-import { generateTypes, type PlatformClient } from '@byteringscms/sdk';
+} from '@bytecontent/contracts';
+import { generateTypes, type PlatformClient } from '@bytecontent/sdk';
 
 export const ENTITIES_DIR = 'entities';
 
@@ -40,7 +40,7 @@ export async function loadSchema(dir: string): Promise<ConfigDocument> {
   try {
     files = (await readdir(source)).filter((f) => f.endsWith('.json')).sort();
   } catch {
-    throw new CliError(`No schema directory found at ${source}. Run "byterings export" first.`);
+    throw new CliError(`No schema directory found at ${source}. Run "bytecontent export" first.`);
   }
   const entities = [];
   for (const file of files) {

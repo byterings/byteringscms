@@ -5,7 +5,7 @@
  * metadata before it reaches SQL; keys and values are always bound as
  * parameters - never interpolated (developmentPlan §6.7, §7.7).
  */
-import { FIELD_TYPE_INFO, type FieldType, type FilterOperator } from '@byteringscms/contracts';
+import { FIELD_TYPE_INFO, type FieldType, type FilterOperator } from '@bytecontent/contracts';
 import { Prisma } from '@prisma/client';
 import { AppError } from '../common/app-error';
 

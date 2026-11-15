@@ -844,7 +844,7 @@ function baseDocument(serverUrl: string, version: string, title: string) {
     info: {
       title,
       version,
-      license: { name: 'AGPL-3.0-only', identifier: 'AGPL-3.0-only' },
+      license: { name: 'MIT', identifier: 'MIT' },
       description:
         'REST API of the metadata-driven application platform. Errors use `{ error: { code, message, details? } }`. ' +
         'Browser clients authenticate with the session cookie and send the CSRF token from the session in `x-csrf-token` on state-changing requests. ' +

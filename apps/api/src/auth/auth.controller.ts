@@ -6,7 +6,7 @@ import {
   type ChangePasswordRequest,
   type LoginRequest,
   type SwitchTenantRequest,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { type Request, type Response } from 'express';
 import { AuthRateLimitGuard } from '../common/rate-limit';
 import { Ctx, requireUser, type RequestContext } from '../common/request-context';

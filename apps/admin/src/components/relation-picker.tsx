@@ -1,6 +1,6 @@
 'use client';
 
-import type { EntityDefinition, PageMeta, RecordItem } from '@byteringscms/contracts';
+import type { EntityDefinition, PageMeta, RecordItem } from '@bytecontent/contracts';
 import { useQuery } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';

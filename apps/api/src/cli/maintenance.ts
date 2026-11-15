@@ -4,7 +4,7 @@
  * and permanently purges records/media trashed more than
  * TRASH_RETENTION_DAYS ago.
  *
- *   pnpm --filter @byteringscms/api cli:maintenance
+ *   pnpm --filter @bytecontent/api cli:maintenance
  */
 import 'reflect-metadata';
 import { existsSync } from 'node:fs';

@@ -1,7 +1,7 @@
 // Creates a new SQL migration from the difference between the existing
 // migrations and prisma/schema.prisma, without touching any real database.
 //
-// Usage: pnpm --filter @byteringscms/api db:new-migration <name>
+// Usage: pnpm --filter @bytecontent/api db:new-migration <name>
 //
 // Uses SHADOW_DATABASE_URL (default: local byterings_shadow database) to
 // replay existing migrations. Review the generated SQL and add any RLS

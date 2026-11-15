@@ -1,6 +1,6 @@
 'use client';
 
-import { ROLES, type Member, type Role } from '@byteringscms/contracts';
+import { ROLES, type Member, type Role } from '@bytecontent/contracts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';

@@ -4,7 +4,7 @@ import {
   type LoginRequest,
   ROLE_PERMISSIONS,
   type Session,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { AuditService } from '../audit/audit.service';
 import { AppError } from '../common/app-error';
 import { type RequestContext, requireUser } from '../common/request-context';

@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { setupRequestSchema, type Session } from '@byteringscms/contracts';
+import { setupRequestSchema, type Session } from '@bytecontent/contracts';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';

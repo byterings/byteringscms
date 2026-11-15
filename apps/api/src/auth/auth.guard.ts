@@ -1,6 +1,6 @@
 import { type CanActivate, type ExecutionContext, HttpStatus, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { type Permission } from '@byteringscms/contracts';
+import { type Permission } from '@bytecontent/contracts';
 import { type Request } from 'express';
 import { AppError } from '../common/app-error';
 import { PERMISSIONS_KEY, PLATFORM_ADMIN_KEY, PUBLIC_KEY, USER_ONLY_KEY } from './auth.decorators';

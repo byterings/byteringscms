@@ -1,6 +1,6 @@
 'use client';
 
-import { FIELD_TYPE_INFO, type EntityDefinition, type RecordItem } from '@byteringscms/contracts';
+import { FIELD_TYPE_INFO, type EntityDefinition, type RecordItem } from '@bytecontent/contracts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ArrowDown, ArrowUp, Plus, RotateCcw, Trash2 } from 'lucide-react';
 import Link from 'next/link';

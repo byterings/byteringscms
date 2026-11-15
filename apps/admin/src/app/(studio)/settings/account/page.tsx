@@ -1,6 +1,6 @@
 'use client';
 
-import type { Tenant } from '@byteringscms/contracts';
+import type { Tenant } from '@bytecontent/contracts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Alert, Button, Card, FormField, Input, PageHeader } from '@/components/ui';

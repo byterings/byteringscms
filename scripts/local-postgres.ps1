@@ -9,7 +9,7 @@
 # Binaries come from the zonky "embedded-postgres-binaries" builds on Maven
 # Central (official PostgreSQL builds packaged as a jar). The superuser is
 # postgres/postgres and listens on localhost only - development use only.
-# After `install` + `start`, run: pnpm --filter @byteringscms/api db:setup-local
+# After `install` + `start`, run: pnpm --filter @bytecontent/api db:setup-local
 
 param(
   [Parameter(Mandatory = $true)][ValidateSet('install', 'start', 'stop', 'status')][string]$Command,

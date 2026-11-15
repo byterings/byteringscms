@@ -1,7 +1,7 @@
 import { mkdtemp } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { type PluginApi } from '@byteringscms/contracts';
+import { type PluginApi } from '@bytecontent/contracts';
 import { type NestExpressApplication } from '@nestjs/platform-express';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { PluginsService } from '../src/plugins/plugins.service';
@@ -28,7 +28,7 @@ describe('plugins', () => {
   beforeAll(async () => {
     app = await createTestApp({
       TENANCY_MODE: 'multi',
-      STORAGE_LOCAL_DIR: await mkdtemp(join(tmpdir(), 'byterings-media-')),
+      STORAGE_LOCAL_DIR: await mkdtemp(join(tmpdir(), 'bytecontent-media-')),
       PLUGIN_HOOK_TIMEOUT_MS: '200',
     });
     const plugins = app.get(PluginsService);

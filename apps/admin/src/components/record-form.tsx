@@ -6,7 +6,7 @@ import {
   type EntityDefinition,
   type FieldDefinition,
   type RecordItem,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { api } from '@/lib/api-client';

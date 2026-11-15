@@ -1,4 +1,4 @@
-import type { ApiError } from '@byteringscms/contracts';
+import type { ApiError } from '@bytecontent/contracts';
 
 /** Error thrown for any non-2xx API response, carrying the stable error code. */
 export class ApiRequestError extends Error {

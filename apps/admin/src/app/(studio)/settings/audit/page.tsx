@@ -1,6 +1,6 @@
 'use client';
 
-import type { AuditEventInfo, PageMeta } from '@byteringscms/contracts';
+import type { AuditEventInfo, PageMeta } from '@bytecontent/contracts';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import {

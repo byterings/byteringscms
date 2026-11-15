@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ROLE_PERMISSIONS, type Role } from '@byteringscms/contracts';
+import { ROLE_PERMISSIONS, type Role } from '@bytecontent/contracts';
 import { APP_ENV } from '../config/config.module';
 import { type Env } from '../config/env';
 import { PrismaService } from '../database/prisma.service';

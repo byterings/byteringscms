@@ -5,7 +5,7 @@ import {
   fieldConfigSchemas,
   type EntityDefinition,
   type FieldDefinition,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ArrowDown, ArrowUp, Pencil, Plus, Trash2 } from 'lucide-react';
 import Link from 'next/link';

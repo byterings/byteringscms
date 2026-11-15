@@ -6,7 +6,7 @@ import {
   slugSchema,
   type RecordGetQuery,
   type RecordListQuery,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { type Response } from 'express';
 import { Public } from '../auth/auth.decorators';
 import { ZodValidationPipe } from '../common/zod-validation.pipe';

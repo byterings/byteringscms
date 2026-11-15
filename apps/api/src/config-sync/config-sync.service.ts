@@ -11,7 +11,7 @@ import {
   type FieldType,
   parseFieldConfig,
   validateFieldValue,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { AuditService } from '../audit/audit.service';
 import { AppError } from '../common/app-error';
 import { type TenantContext } from '../common/request-context';

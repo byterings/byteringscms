@@ -1,6 +1,6 @@
 # Local development services. Start with: docker compose up -d
 # Credentials here are for local development only.
-name: byteringscms-dev
+name: bytecontent-dev
 
 services:
   postgres:

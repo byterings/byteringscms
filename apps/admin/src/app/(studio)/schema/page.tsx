@@ -1,6 +1,6 @@
 'use client';
 
-import type { EntityDefinition } from '@byteringscms/contracts';
+import type { EntityDefinition } from '@bytecontent/contracts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';

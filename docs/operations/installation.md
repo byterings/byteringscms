@@ -9,7 +9,7 @@ Requirements: Docker Engine 24+ with Compose v2, a DNS name pointing to the
 server, ports 80/443 open.
 
 ```bash
-git clone <repository> byteringscms && cd byteringscms
+git clone <repository> bytecontent && cd bytecontent
 cp .env.production.example .env.production
 # Edit .env.production: DOMAIN, POSTGRES_PASSWORD, APP_DB_PASSWORD,
 # SETUP_TOKEN (generate with: openssl rand -base64 32)
@@ -69,7 +69,7 @@ APP_DB_PASSWORD=<strong password> pnpm db:setup-local   # role + databases
 cp apps/api/.env.example apps/api/.env                 # edit DATABASE_URL etc.
 pnpm build && pnpm db:deploy
 NODE_ENV=production node apps/api/dist/main.js         # API on :4000
-API_URL=http://localhost:4000 pnpm --filter @byteringscms/admin start  # :3000
+API_URL=http://localhost:4000 pnpm --filter @bytecontent/admin start  # :3000
 ```
 
 Put a TLS reverse proxy (Caddy, nginx) in front of the Admin Studio and set

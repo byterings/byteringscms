@@ -1,8 +1,8 @@
 {
-  "name": "@byteringscms/contracts",
+  "name": "@bytecontent/contracts",
   "version": "0.1.0",
   "private": true,
-  "license": "AGPL-3.0-only",
+  "license": "MIT",
   "description": "Shared API contracts: Zod schemas, field type definitions and types used by the API, Admin Studio and SDK.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

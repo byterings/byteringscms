@@ -1,27 +1,31 @@
 #!/usr/bin/env node
 /**
- * byterings - developer CLI for the platform.
+ * bytecontent - developer CLI for the platform.
  *
- * Connection: --url / BYTERINGS_URL (default http://localhost:4000) and
- * --api-key / BYTERINGS_API_KEY (an API key with metadata scopes).
+ * Connection: --url / BYTECONTENT_URL (default http://localhost:4000) and
+ * --api-key / BYTECONTENT_API_KEY (an API key with metadata scopes).
  */
 import { createInterface } from 'node:readline/promises';
 import { Command } from 'commander';
-import { createClient, PlatformError, type PlatformClient } from '@byteringscms/sdk';
+import { createClient, PlatformError, type PlatformClient } from '@bytecontent/sdk';
 import { CliError, diffSchema, exportSchema, formatPlan, pushSchema, writeTypes } from './commands';
 
 const program = new Command();
 
 program
-  .name('byterings')
+  .name('bytecontent')
   .description('Developer CLI for the metadata-driven application platform')
-  .option('--url <url>', 'API base URL', process.env.BYTERINGS_URL ?? 'http://localhost:4000')
-  .option('--api-key <key>', 'API key (or set BYTERINGS_API_KEY)', process.env.BYTERINGS_API_KEY);
+  .option('--url <url>', 'API base URL', process.env.BYTECONTENT_URL ?? 'http://localhost:4000')
+  .option(
+    '--api-key <key>',
+    'API key (or set BYTECONTENT_API_KEY)',
+    process.env.BYTECONTENT_API_KEY,
+  );
 
 function client(): PlatformClient {
   const { url, apiKey } = program.opts<{ url: string; apiKey?: string }>();
   if (!apiKey)
-    throw new CliError('An API key is required: pass --api-key or set BYTERINGS_API_KEY.');
+    throw new CliError('An API key is required: pass --api-key or set BYTECONTENT_API_KEY.');
   return createClient({ baseUrl: url, apiKey });
 }
 

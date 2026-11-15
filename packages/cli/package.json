@@ -1,13 +1,13 @@
 {
-  "name": "@byteringscms/cli",
+  "name": "@bytecontent/cli",
   "version": "0.1.0",
   "private": true,
-  "license": "AGPL-3.0-only",
+  "license": "MIT",
   "description": "Developer CLI: schema export/diff/push, type generation, templates.",
   "main": "dist/commands.js",
   "types": "dist/commands.d.ts",
   "bin": {
-    "byterings": "dist/index.js"
+    "bytecontent": "dist/index.js"
   },
   "files": [
     "dist"
@@ -20,8 +20,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@byteringscms/contracts": "workspace:*",
-    "@byteringscms/sdk": "workspace:*",
+    "@bytecontent/contracts": "workspace:*",
+    "@bytecontent/sdk": "workspace:*",
     "commander": "^12"
   },
   "devDependencies": {

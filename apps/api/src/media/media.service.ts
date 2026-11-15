@@ -8,7 +8,7 @@ import {
   type MediaKind,
   type MediaListQuery,
   type UpdateMediaRequest,
-} from '@byteringscms/contracts';
+} from '@bytecontent/contracts';
 import { type Media, type Prisma } from '@prisma/client';
 import { AuditService } from '../audit/audit.service';
 import { AppError } from '../common/app-error';

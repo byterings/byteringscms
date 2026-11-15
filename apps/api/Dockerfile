@@ -1,5 +1,5 @@
 # API image. Build from the repository root:
-#   docker build -f apps/api/Dockerfile -t byteringscms-api .
+#   docker build -f apps/api/Dockerfile -t bytecontent-api .
 FROM node:24-bookworm-slim AS base
 RUN npm install -g pnpm@10.34.9 \
  && apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates \
@@ -9,9 +9,9 @@ WORKDIR /repo
 FROM base AS build
 COPY . .
 RUN pnpm install --frozen-lockfile
-RUN pnpm turbo run build --filter=@byteringscms/api...
+RUN pnpm turbo run build --filter=@bytecontent/api...
 # Self-contained production bundle (workspace packages copied, dev deps dropped).
-RUN pnpm --filter @byteringscms/api deploy --prod --legacy /out \
+RUN pnpm --filter @bytecontent/api deploy --prod --legacy /out \
  && cd /out && npx prisma generate
 
 FROM node:24-bookworm-slim AS runtime

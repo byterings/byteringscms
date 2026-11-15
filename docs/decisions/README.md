@@ -21,7 +21,7 @@ Use `0000-template.md` for new records.
 | [013](013-authentication-method.md) | Authentication method | Accepted |
 | [014](014-multi-tenant-membership.md) | Multi-tenant user membership | Accepted |
 | [015](015-record-soft-delete.md) | Soft delete for records | Accepted |
-| [016](016-licensing-agpl.md) | Licensing: AGPL-3.0 | Accepted |
+| [016](016-licensing-agpl.md) | Licensing: AGPL-3.0 | Superseded by 028 |
 | [017](017-tenant-resolution.md) | Tenant resolution | Accepted |
 | [018](018-role-model.md) | Role model | Accepted |
 | [019](019-optimistic-concurrency.md) | Optimistic concurrency for records | Accepted |
@@ -33,3 +33,4 @@ Use `0000-template.md` for new records.
 | [025](025-public-api-access.md) | Public API access | Accepted |
 | [026](026-template-customization.md) | Template customization and upgrades | Accepted |
 | [027](027-billing-deferred.md) | Billing deferred | Accepted |
+| [028](028-licensing-mit.md) | Licensing: MIT | Accepted |

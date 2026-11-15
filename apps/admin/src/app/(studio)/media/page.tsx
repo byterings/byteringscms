@@ -1,6 +1,6 @@
 'use client';
 
-import type { MediaItem, MediaKind } from '@byteringscms/contracts';
+import type { MediaItem, MediaKind } from '@bytecontent/contracts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Upload } from 'lucide-react';
 import { useRef, useState } from 'react';

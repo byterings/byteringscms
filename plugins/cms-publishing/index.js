@@ -6,10 +6,10 @@
  * Plugins receive record data only and return field changes; the platform
  * validates those changes against the entity metadata like any user input.
  *
- * @param {import('@byteringscms/contracts').PluginApi} api
+ * @param {import('@bytecontent/contracts').PluginApi} api
  */
 function register(api) {
-  /** @type {import('@byteringscms/contracts').BeforeHookHandler} */
+  /** @type {import('@bytecontent/contracts').BeforeHookHandler} */
   const publishing = ({ fields, data, previous }) => {
     const changes = {};
     const becamePublished =

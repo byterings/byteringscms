@@ -1,6 +1,6 @@
 // Creates the local application role and databases on a PostgreSQL server.
 //
-// Usage: pnpm --filter @byteringscms/api db:setup-local
+// Usage: pnpm --filter @bytecontent/api db:setup-local
 //
 // ADMIN_DATABASE_URL  superuser connection (default postgres:postgres@localhost:5432)
 // APP_DB_USER / APP_DB_PASSWORD  application role (default byterings / byterings)

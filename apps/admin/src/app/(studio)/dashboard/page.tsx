@@ -1,6 +1,6 @@
 'use client';
 
-import type { EntityDefinition, PageMeta } from '@byteringscms/contracts';
+import type { EntityDefinition, PageMeta } from '@bytecontent/contracts';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { Alert, Card, EmptyState, Loading, PageHeader } from '@/components/ui';
