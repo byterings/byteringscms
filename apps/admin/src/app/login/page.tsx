@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginRequestSchema } from '@byteringscms/contracts';
+import { loginRequestSchema } from '@bytecontent/contracts';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
   const { errors, isSubmitting } = form.formState;
   return (
-    <AuthCard title="Sign in to Admin Studio">
+    <AuthCard title="Sign in to ByteContent">
       <form onSubmit={onSubmit} className="space-y-4" noValidate>
         {error ? <Alert>{error}</Alert> : null}
         <FormField label="Email" htmlFor="email" error={errors.email?.message}>

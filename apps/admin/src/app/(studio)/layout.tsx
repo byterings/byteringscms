@@ -16,6 +16,7 @@ import {
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, type ReactNode } from 'react';
+import { LogoMark } from '@/components/logo';
 import { Loading, Select } from '@/components/ui';
 import { useEntities } from '@/lib/queries';
 import { useSession } from '@/lib/session';
@@ -76,10 +77,10 @@ export default function StudioLayout({ children }: { children: ReactNode }) {
     <div className="flex min-h-full">
       <aside className="flex w-60 shrink-0 flex-col border-r border-slate-200 bg-white px-3 py-4">
         <div className="mb-4 flex items-center gap-2 px-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-600 text-sm font-bold text-white">
-            B
-          </div>
-          <span className="text-sm font-semibold">Admin Studio</span>
+          <LogoMark size={28} />
+          <span className="text-sm font-semibold">
+            Byte<span className="text-brand-600">Content</span>
+          </span>
         </div>
 
         {session.memberships.length > 1 && session.tenancyMode === 'multi' ? (

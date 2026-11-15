@@ -4,8 +4,8 @@ import './globals.css';
 import { Providers } from './providers';
 
 export const metadata: Metadata = {
-  title: 'Admin Studio',
-  description: 'Metadata-driven application platform administration',
+  title: { default: 'ByteContent', template: '%s · ByteContent' },
+  description: 'ByteContent Admin Studio',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

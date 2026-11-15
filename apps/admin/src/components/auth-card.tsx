@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { LogoMark } from './logo';
 
 export function AuthCard({
   title,
@@ -13,9 +14,7 @@ export function AuthCard({
     <main className="flex min-h-full items-center justify-center p-6">
       <div className="w-full max-w-md">
         <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-600 text-lg font-bold text-white">
-            B
-          </div>
+          <LogoMark size={44} className="mx-auto mb-3" />
           <h1 className="text-xl font-semibold text-slate-900">{title}</h1>
           {subtitle ? <p className="mt-1 text-sm text-slate-600">{subtitle}</p> : null}
         </div>

@@ -1,11 +1,20 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #dbe6fe;
-  --color-brand-500: #3b6cf6;
-  --color-brand-600: #2b55e0;
-  --color-brand-700: #2242b5;
+  /* ByteContent starter brand (docs/brand/README.md) */
+  --color-brand-50: #f1f0ff;
+  --color-brand-100: #e5e3ff;
+  --color-brand-200: #cecaff;
+  --color-brand-300: #ada5ff;
+  --color-brand-400: #8a7bff;
+  --color-brand-500: #6c55fb;
+  --color-brand-600: #5b3df0;
+  --color-brand-700: #4c2fd4;
+  --color-brand-800: #3f28ab;
+  --color-brand-900: #352687;
+  --color-brand-950: #1f164f;
+  --color-accent-500: #14b8a6;
+  --color-accent-600: #0d9488;
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
