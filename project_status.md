@@ -45,6 +45,7 @@ Branches: `main` (stable), `dev` (all work; not yet merged or pushed).
 | R-701 … R-705 | Media (local/S3 drivers, content sniffing), media library, public API, template engine, CMS template | `apps/api/src/{media,public-api,templates}`, `templates/cms` |
 | R-801 … R-802 | Template upgrade plans/apply/history, trusted plugins with capabilities, `cms-publishing` sample | `template-upgrade.service.ts`, `apps/api/src/plugins`, `plugins/` |
 | R-901 … R-904 | Dockerfiles + prod compose + Caddy, JSON logs with request ids, quotas/usage, maintenance job, backup/restore + drill, runbooks, security checklist | `apps/*/Dockerfile`, `docker-compose.prod.yml`, `scripts/`, `docs/operations/` |
+| R-1001 | Product named ByteContent (by ByteRings): `@bytecontent/*` packages, `bytecontent` CLI, MIT license (ADR-028), starter brand | `docs/brand/`, `LICENSE`, `docs/decisions/028-licensing-mit.md` |
 
 Database migrations (in order): `identity_tenancy`, `metadata_engine`,
 `record_engine`, `relationships`, `media_and_templates`,
@@ -86,6 +87,8 @@ Database migrations (in order): `identity_tenancy`, `metadata_engine`,
 None
 
 ## Pending
+- Installer and CLI: `npx create-bytecontent` for npm/pnpm/yarn/bun, database prompts with a connection check, one root `.env`, `bytecontent dev/start/setup/migrate/doctor` (awaiting approval).
+- Final logo and brand colours to replace the starter brand in `docs/brand/` and the Admin Studio tokens.
 - First SaaS pilot (Phase 9 stage 2/3 infrastructure).
 - Run `docker compose -f docker-compose.prod.yml up --build` on a Docker host.
 - Merge `dev` into `main` and push when approved.
